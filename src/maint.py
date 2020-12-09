@@ -59,8 +59,8 @@ net = DQN(3, screen_height, screen_width, n_actions, device=device).to(device)
 optimizer = optim.Adam(net.parameters())
 policy = ts.policy.DQNPolicy(net, optimizer, discount_factor=0.9, estimation_step=3, target_update_freq=320)
 
-train_envs = ts.env.DummyVectorEnv([lambda: gym.make('numberx-v0') for _ in range(8)])
-test_envs = ts.env.DummyVectorEnv([lambda: gym.make('numberx-v0') for _ in range(16)])
+train_envs = ts.env.DummyVectorEnv([lambda: gym.make('numberx-v0', device=device) for _ in range(8)])
+test_envs = ts.env.DummyVectorEnv([lambda: gym.make('numberx-v0', device=device) for _ in range(16)])
 
 train_collector = ts.data.Collector(policy, train_envs, ts.data.ReplayBuffer(size=20000))
 test_collector = ts.data.Collector(policy, test_envs)
