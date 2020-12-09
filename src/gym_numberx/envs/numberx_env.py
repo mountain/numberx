@@ -27,7 +27,7 @@ class NumberxEnv(gym.Env, utils.EzPickle):
     def step(self, action):
         self.game.fire_step_event(action=self.game.action())
 
-        reward = self.game.reward()
+        reward = self.game.reward().detach()
 
         _state = self.state()
 
@@ -44,9 +44,7 @@ class NumberxEnv(gym.Env, utils.EzPickle):
         grayscale = data.reshape(self.game.agent.height, self.game.agent.width, 1)
         view = np.concatenate([grayscale, grayscale, grayscale], axis=2)
 
-        stack = self.game.count_test.get_stack()
-        arr1 = np.array(stack[0], dtype=np.uint8)
-        arr2 = np.array(stack[1], dtype=np.uint8)
-        arr3 = np.array(stack[2], dtype=np.uint8)
+        data = self.game.count_test.data
+        arr1 = np.array(data, dtype=np.uint8)
 
-        return np.concatenate([view, arr1, arr2, arr3], axis=1)
+        return np.concatenate([view, arr1], axis=1)

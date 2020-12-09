@@ -1,7 +1,11 @@
 import numpy as np
-import random
 
+from torchvision.transforms.transforms import ToTensor
+from torchvision.models.resnet import resnet18
 from numx.affordable import Affordable, NOOP, IDLE, get_action
+
+
+convert = ToTensor()
 
 
 class AbstractAgent(Affordable):
@@ -79,10 +83,14 @@ class AbstractAgent(Affordable):
             self.blackboard[self.y, self.x] = 1.0
 
 
-class RandomAgent(AbstractAgent):
+class NNAgent(AbstractAgent):
 
     def __init__(self, ctx, width, height):
-        super(RandomAgent, self).__init__(ctx, width, height)
+        super(NNAgent, self).__init__(ctx, width, height)
+        self.resnet = resnet18(num_classes=3)
 
     def answer(self):
-        return random.sample(['red', 'blue', 'all'], 1)
+        data = self.blackboard.reshape([1, self.height, self.width])
+        data = np.array(data, dtype=np.float32)
+        data = np.concatenate((data, data, data), axis=1)
+        return self.resnet(convert(data).view(1, 3, self.height, self.width))

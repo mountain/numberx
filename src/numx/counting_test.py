@@ -83,12 +83,15 @@ class CountTest(Affordable):
         return stack
 
     def answer(self):
+        onehot = np.zeros(3, dtype=np.float32)
         if self.sum_red > self.sum_blue:
-            return 'red'
+            onehot[0] = 1.0
         elif self.sum_blue > self.sum_red:
-            return 'blue'
+            onehot[1] = 1.0
         else:
-            return 'all'
+            onehot[2] = 1.0
+
+        return onehot
 
     def new_round(self):
         self.tests = 0
