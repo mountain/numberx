@@ -7,10 +7,12 @@ from numx.counting_test import CountTest
 
 
 class NumberXGame(AbstractGame):
-    def __init__(self):
+    def __init__(self, device=None):
         super(NumberXGame, self).__init__({})
         self.softmax = th.nn.Softmax()
         self.kld = th.nn.KLDivLoss()
+
+        self.device = device
 
     def reset(self):
         super(NumberXGame, self).reset()
@@ -24,15 +26,15 @@ class NumberXGame(AbstractGame):
         blkb = self.agent.blackboard.reshape(self.agent.height, self.agent.width, 1)
         blkb = np.concatenate((blkb, blkb, blkb), axis=2)
         ss = np.concatenate((blkb, self.count_test.data), axis=1)
-        tns = th.tensor(ss).permute(2, 0, 1)
+        tns = th.tensor(ss, device=self.device).permute(2, 0, 1)
         return tns
 
     def state(self):
         s = np.concatenate((self.agent.blackboard, self.count_test.data), axis=2)
-        return th.tensor(s)
+        return th.tensor(s, device=self.device)
 
     def reward(self):
-        true_answer = th.tensor(self.count_test.answer().reshape(1, 3))
+        true_answer = th.tensor(self.count_test.answer().reshape(1, 3), device=self.device)
         agent_answer = self.softmax(self.agent.answer())
         return - self.kld(agent_answer, true_answer)
 

@@ -31,7 +31,7 @@ logger.set_level(logger.INFO)
 outdir = 'results'
 model_path = Path(outdir)
 
-env = gym.make('numberx-v0')
+env = gym.make('numberx-v0', device=device)
 env = wrappers.Monitor(env, directory=outdir, force=True)
 env.seed(0)
 env.reset()

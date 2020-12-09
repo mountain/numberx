@@ -14,9 +14,9 @@ logger = logging.getLogger(__name__)
 class NumberxEnv(gym.Env, utils.EzPickle):
     metadata = {'render.modes': ['rgb_array']}
 
-    def __init__(self):
+    def __init__(self, device=None):
         gym.Env.__init__(self)
-        self.game = NumberXGame()
+        self.game = NumberXGame(device=device)
 
         self.action_space = self.game.action_space()
         self.observation_space = self.game.state_space()
