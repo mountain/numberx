@@ -18,7 +18,7 @@ from gym import wrappers, logger
 from tianshou.utils.net.discrete import DQN
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-n", type=int, default=256000, help="number of epochs of training")
+parser.add_argument("-n", type=int, default=256, help="number of epochs of training")
 parser.add_argument("-g", type=str, default='0', help="index of gpu")
 opt = parser.parse_args()
 
@@ -72,7 +72,7 @@ if __name__ == '__main__':
     result = ts.trainer.offpolicy_trainer(
         policy, train_collector, test_collector,
         max_epoch=10, step_per_epoch=1000, collect_per_step=10,
-        episode_per_test=100, batch_size=64,
+        episode_per_test=100, batch_size=8,
         train_fn=lambda epoch, env_step: policy.set_eps(0.1),
         test_fn=lambda epoch, env_step: policy.set_eps(0.05),
         stop_fn=lambda mean_rewards: mean_rewards >= env.spec.reward_threshold,
