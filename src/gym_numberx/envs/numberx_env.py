@@ -41,7 +41,7 @@ class NumberxEnv(gym.Env, utils.EzPickle):
 
     def render(self, mode='rgb_array', close=False):
         data = np.array(self.game.blackboard.data * 255, dtype=np.uint8)
-        grayscale = data.reshape(self.game.blackboard.width, self.game.blackboard.height, 1)
+        grayscale = data.reshape(self.game.blackboard.height, self.game.blackboard.width, 1)
         view = np.concatenate([grayscale, grayscale, grayscale], axis=2)
 
         return view

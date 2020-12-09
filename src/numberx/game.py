@@ -251,7 +251,7 @@ class NumberXGame(AbstractGame):
         super(NumberXGame, self).reset()
 
     def all_affordables(self):
-        self.blackboard = Blackboard(self.ctx, 100, 100)
+        self.blackboard = Blackboard(self.ctx, 200, 100)
         return self.blackboard,
 
     def available_actions(self):
