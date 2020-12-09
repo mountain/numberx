@@ -40,8 +40,13 @@ class NumberxEnv(gym.Env, utils.EzPickle):
         return self.state()
 
     def render(self, mode='rgb_array', close=False):
-        data = np.array(self.game.blackboard.data * 255, dtype=np.uint8)
-        grayscale = data.reshape(self.game.blackboard.height, self.game.blackboard.width, 1)
+        data = np.array(self.game.agent.blackboard * 255, dtype=np.uint8)
+        grayscale = data.reshape(self.game.agent.height, self.game.agent.width, 1)
         view = np.concatenate([grayscale, grayscale, grayscale], axis=2)
 
-        return view
+        stack = self.game.count_test.get_stack()
+        arr1 = np.array(stack[0], dtype=np.uint8)
+        arr2 = np.array(stack[1], dtype=np.uint8)
+        arr3 = np.array(stack[2], dtype=np.uint8)
+
+        return np.concatenate([view, arr1, arr2, arr3], axis=1)

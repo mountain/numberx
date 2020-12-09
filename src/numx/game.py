@@ -69,7 +69,7 @@ class AbstractGame(Affordable):
         holders = self.affordables + [self.ctx['agent'].eye]
         fields = [a.name() for a in holders]
         s = collections.namedtuple('State', fields)._make([a.state() for a in holders])
-        return Batch(s)
+        return s
 
     def act(self, observation, reward, done):
         if self.policy is None:

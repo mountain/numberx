@@ -1,5 +1,7 @@
 gym
 
+opencv-python
+
 torch
 torchvision
 
