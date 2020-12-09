@@ -5,7 +5,7 @@ import numpy as np
 import gym
 
 from gym import utils
-from numberx.game import NumberXGame
+from numx.numberx import NumberXGame
 
 import logging
 logger = logging.getLogger(__name__)
