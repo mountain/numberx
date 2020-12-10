@@ -34,7 +34,7 @@ class Serengeti(AbstractGame):
         dx = xx - self.peakx
         dy = yy - self.peaky
         p = np.exp(- dx * dx - dy * dy) * (1 - self.alpha)
-        if np.isnan(p):
+        if np.any(np.isnan(p)):
             return 0
         else:
             return p
