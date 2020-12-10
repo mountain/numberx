@@ -21,14 +21,14 @@ class Serengeti(AbstractGame):
         self.peakx = np.random.random() * (self.xmax - self.xmin) + self.xmin
         self.peaky = np.random.random() * (self.ymax - self.ymin) + self.ymin
 
-        self.berries_left = np.zeros((16, 16))
-        self.berries_right = np.zeros((16, 16))
-        self.canvas_left = np.zeros((16, 16))
-        self.canvas_right = np.zeros((16, 16))
+        self.berries_left = np.zeros((24, 24))
+        self.berries_right = np.zeros((24, 24))
+        self.canvas_left = np.zeros((24, 24))
+        self.canvas_right = np.zeros((24, 24))
 
         tribex = np.random.random() * (self.xmax - self.xmin) + self.xmin
         tribey = np.random.random() * (self.ymax - self.ymin) + self.ymin
-        self.tribe = Tribe(16, 16, tribex, tribey, 0.0)
+        self.tribe = Tribe(24, 24, tribex, tribey, 0.0)
 
     def prosperity(self, xx, yy):
         dx = xx - self.peakx
@@ -74,9 +74,9 @@ class Serengeti(AbstractGame):
         super(Serengeti, self).reset()
 
     def all_affordables(self):
-        self.chief = Chief(self.ctx, 16, 16)
-        self.shaman_left = Shaman(self.ctx, 'lshaman', 16, 16)
-        self.shaman_right = Shaman(self.ctx, 'rshaman', 16, 16)
+        self.chief = Chief(self.ctx, 24, 24)
+        self.shaman_left = Shaman(self.ctx, 'lshaman', 24, 24)
+        self.shaman_right = Shaman(self.ctx, 'rshaman', 24, 24)
 
         return self.chief, self.shaman_left, self.shaman_right
 
