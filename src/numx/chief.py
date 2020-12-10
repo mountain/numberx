@@ -37,16 +37,10 @@ class Chief(Affordable):
         dy = self.speed * np.sin(self.direction * np.pi / 180)
         self.x = self.x + dx
         self.y = self.y + dy
-
-        if self.x > 5:
-            self.x = 5
-        elif self.x < -5:
-            self.x = 5
-
-        if self.y > 5:
-            self.y = 5
-        elif self.y < -5:
-            self.y = 5
+        r = np.sqrt(self.x * self.x + self.y * self.y)
+        if r > 7:
+            self.x = self.x / r * 7
+            self.y = self.y / r * 7
 
     def lf(self):
         self.direction = (self.direction + 1) % 360
