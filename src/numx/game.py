@@ -34,13 +34,19 @@ class AbstractGame(Affordable):
         import itertools, collections
 
         fields = [a.name() for a in self.affordables]
-        self.actions_list = [collections.namedtuple('Action', fields)._make(actions)
+        namedtupleClass = collections.namedtuple('Action', fields)
+        self.actions_list = [namedtupleClass._make(actions)
                              for actions in itertools.product(*[a.available_actions() for a in self.affordables])]
+
+        globals()[namedtupleClass.__name__] = namedtupleClass
 
         holders = self.affordables
         fields = [a.name() for a in holders]
-        self.states_list = [collections.namedtuple('State', fields)._make(states)
+        namedtupleClass = collections.namedtuple('State', fields)
+        self.states_list = [namedtupleClass._make(states)
                             for states in itertools.product(*[h.available_states() for h in holders])]
+
+        globals()[namedtupleClass.__name__] = namedtupleClass
 
     def add_step_handler(self, handler):
         if handler is not self and handler not in self.step_handlers:
