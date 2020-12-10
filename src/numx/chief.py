@@ -37,7 +37,7 @@ class Chief(Affordable):
         dy = self.speed * np.sin(self.direction * np.pi / 180)
         self.x = self.x + dx
         self.y = self.y + dy
-        r = np.sqrt(self.x * self.x + self.y * self.y)
+        r = np.sqrt(1e-8 + self.x * self.x + self.y * self.y)
         if r > 7:
             self.x = self.x / r * 7
             self.y = self.y / r * 7
@@ -50,6 +50,8 @@ class Chief(Affordable):
 
     def gu(self):
         self.speed = self.speed * 2
+        if self.speed > 0.1:
+            self.speed = 0.1
 
     def gd(self):
         self.speed = self.speed / 2
