@@ -21,7 +21,6 @@ class Serengeti(AbstractGame):
         self.peakx = np.random.random() * (self.xmax - self.xmin) + self.xmin
         self.peaky = np.random.random() * (self.ymax - self.ymin) + self.ymin
 
-        self.last_score = -2.0
         self.berries_left = np.zeros((32, 32))
         self.berries_right = np.zeros((32, 32))
         self.canvas_left = np.zeros((32, 32))
@@ -49,10 +48,7 @@ class Serengeti(AbstractGame):
     def score(self):
         dx = self.tribe.x - self.peakx
         dy = self.tribe.y - self.peaky
-        cur = - np.log(1e-8 + dx * dx + dy * dy)
-        delta = cur - self.last_score
-        self.last_score = cur
-        return delta
+        return - np.log(1e-8 + dx * dx + dy * dy)
 
     def apply_effect(self):
         self.steps += 1
