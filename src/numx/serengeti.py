@@ -74,7 +74,7 @@ class Serengeti(AbstractGame):
         super(Serengeti, self).reset()
 
     def all_affordables(self):
-        self.chief = Chief(self.ctx, 32, 32)
+        self.chief = Chief(self.ctx, 16, 16)
         self.shaman_left = Shaman(self.ctx, 'lshaman', 16, 16)
         self.shaman_right = Shaman(self.ctx, 'rshaman', 16, 16)
 
