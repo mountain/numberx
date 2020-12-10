@@ -21,14 +21,14 @@ class Serengeti(AbstractGame):
         self.peakx = np.random.random() * (self.xmax - self.xmin) + self.xmin
         self.peaky = np.random.random() * (self.ymax - self.ymin) + self.ymin
 
-        self.berries_left = np.zeros((32, 32))
-        self.berries_right = np.zeros((32, 32))
-        self.canvas_left = np.zeros((32, 32))
-        self.canvas_right = np.zeros((32, 32))
+        self.berries_left = np.zeros((16, 16))
+        self.berries_right = np.zeros((16, 16))
+        self.canvas_left = np.zeros((16, 16))
+        self.canvas_right = np.zeros((16, 16))
 
         tribex = np.random.random() * (self.xmax - self.xmin) + self.xmin
         tribey = np.random.random() * (self.ymax - self.ymin) + self.ymin
-        self.tribe = Tribe(32, 32, tribex, tribey, 0.0)
+        self.tribe = Tribe(16, 16, tribex, tribey, 0.0)
 
     def prosperity(self, xx, yy):
         dx = xx - self.peakx
