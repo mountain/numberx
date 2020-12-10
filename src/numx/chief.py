@@ -9,7 +9,7 @@ class Chief(Affordable):
         self.ctx = ctx
 
         self.direction = 0
-        self.speed = 0.01
+        self.speed = 0.001
         self.x = x
         self.y = y
 
