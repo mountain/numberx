@@ -11,7 +11,6 @@ import tianshou as ts
 import torch
 import torch.optim as optim
 import torchvision.transforms as T
-from PIL import Image
 
 from pathlib import Path
 from gym import wrappers, logger
