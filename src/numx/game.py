@@ -12,7 +12,6 @@ class AbstractGame(Affordable):
         self.policy = None
         self.ctx['game'] = self
 
-        self.steps = 0
         self.step_handlers = []
 
         for sub in self.all_affordables():
@@ -76,7 +75,6 @@ class AbstractGame(Affordable):
         pass
 
     def act(self, observation, reward, done):
-        self.steps += 1
         self.apply_effect()
         if self.policy is None:
             action = random.sample(self.action_space(), 1)

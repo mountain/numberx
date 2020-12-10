@@ -11,6 +11,8 @@ class Serengeti(AbstractGame):
         super(Serengeti, self).__init__(ctx)
         self.device = device
 
+        self.steps = 0
+
         self.alpha = alpha
         self.xmin = -2
         self.xmax = +2
@@ -53,6 +55,7 @@ class Serengeti(AbstractGame):
         return delta
 
     def apply_effect(self):
+        self.steps += 1
         self.apply_tribe_effect()
         self.apply_shaman_effect()
         self.apply_chief_effect()
@@ -100,7 +103,8 @@ class Serengeti(AbstractGame):
 
     def exit_condition(self):
         score = self.score()
-        return self.steps > 20000 or score > 100
+        steps = self.steps
+        return steps > 200 or score > 100
 
     def force_condition(self):
         return False

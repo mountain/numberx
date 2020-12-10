@@ -17,7 +17,9 @@ class NumXSerengetiEnv(gym.Env, utils.EzPickle):
 
     def __init__(self, device=None):
         gym.Env.__init__(self)
+        self.steps = 0
         self.game = Serengeti({}, device=device)
+        self.game.add_step_handler(self)
 
         self.action_space = self.game.action_space()
         self.observation_space = self.state()
@@ -28,15 +30,13 @@ class NumXSerengetiEnv(gym.Env, utils.EzPickle):
         return np.concatenate([grayscale, grayscale, grayscale], axis=0)
 
     def step(self, action):
-        self.game.fire_step_event(action=self.game.action())
-
         reward = self.game.reward()
-
-        _state = self.state()
-
+        state = self.state()
         episode_over = self.game.exit_condition() or self.game.force_condition()
 
-        return _state, reward, episode_over, {}
+        self.game.act(state, reward, episode_over)
+
+        return state, reward, episode_over, {}
 
     def reset(self):
         self.game.reset()

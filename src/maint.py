@@ -38,7 +38,6 @@ env.reset()
 
 resize = T.Compose([
     T.ToPILImage(),
-    T.Resize((64, 64), interpolation=Image.CUBIC),
     T.ToTensor()
 ])
 
