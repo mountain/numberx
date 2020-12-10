@@ -14,7 +14,7 @@ class Chief(Affordable):
         self.y = y
 
     def available_actions(self):
-        return (NOOP, 'fw', 'lf', 'rt', 'gu', 'gd')
+        return ('lf', 'rt', 'gu', 'gd')
 
     def reset(self):
         super(Chief, self).reset()
