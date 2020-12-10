@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
 
-from gym_numberx.envs.numberx_env import NumberxEnv
+from gym_numberx.envs.numx_env import NumXSerengetiEnv

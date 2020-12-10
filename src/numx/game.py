@@ -1,7 +1,6 @@
 import random
 
 from numx.affordable import Affordable
-from tianshou.data import Batch
 
 
 class AbstractGame(Affordable):
@@ -12,6 +11,8 @@ class AbstractGame(Affordable):
         self.states_list = []
         self.policy = None
         self.ctx['game'] = self
+
+        self.steps = 0
         self.step_handlers = []
 
         for sub in self.all_affordables():
@@ -71,7 +72,12 @@ class AbstractGame(Affordable):
         s = collections.namedtuple('State', fields)._make([a.state() for a in holders])
         return s
 
+    def apply_effect(self):
+        pass
+
     def act(self, observation, reward, done):
+        self.steps += 1
+        self.apply_effect()
         if self.policy is None:
             action = random.sample(self.action_space(), 1)
             for a in self.affordables:

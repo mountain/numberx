@@ -4,6 +4,6 @@ from gym.envs.registration import register
 
 
 register(
-    id='numberx-v0',
-    entry_point='gym_numberx.envs:NumberxEnv',
+    id='numberx-serengeti-v0',
+    entry_point='gym_numberx.envs:NumXSerengetiEnv',
 )
