@@ -1,5 +1,4 @@
 import numpy as np
-import torch as th
 
 from numx.game import AbstractGame
 from numx.tribe import Tribe
@@ -8,8 +7,8 @@ from numx.chief import Chief
 
 
 class Serengeti(AbstractGame):
-    def __init__(self, ctx, alpha=0.1, device='cpu'):
-        super(Serengeti, self).__init__({})
+    def __init__(self, ctx, alpha=0.01, device='cpu'):
+        super(Serengeti, self).__init__(ctx)
         self.device = device
 
         self.alpha = alpha
@@ -21,14 +20,14 @@ class Serengeti(AbstractGame):
         self.peaky = np.random.random() * (self.ymax - self.ymin) + self.ymin
 
         self.last_score = -2.0
-        self.berries_left = np.zeros((16, 16))
-        self.berries_right = np.zeros((16, 16))
-        self.canvas_left = np.zeros((16, 16))
-        self.canvas_right = np.zeros((16, 16))
+        self.berries_left = np.zeros((32, 32))
+        self.berries_right = np.zeros((32, 32))
+        self.canvas_left = np.zeros((32, 32))
+        self.canvas_right = np.zeros((32, 32))
 
         tribex = np.random.random() * (self.xmax - self.xmin) + self.xmin
         tribey = np.random.random() * (self.ymax - self.ymin) + self.ymin
-        self.tribe = Tribe(tribex, tribey, 0.0)
+        self.tribe = Tribe(32, 32, tribex, tribey, 0.0)
 
     def prosperity(self, xx, yy):
         dx = xx - self.peakx
@@ -75,32 +74,33 @@ class Serengeti(AbstractGame):
         super(Serengeti, self).reset()
 
     def all_affordables(self):
-        self.chief = Chief(self.ctx, 16, 16)
-        self.shaman_left = Shaman(self.ctx, 'lshaman', 16, 16)
-        self.shaman_right = Shaman(self.ctx, 'rshaman', 16, 16)
+        self.chief = Chief(self.ctx, 32, 32)
+        self.shaman_left = Shaman(self.ctx, 'lshaman', 32, 32)
+        self.shaman_right = Shaman(self.ctx, 'rshaman', 32, 32)
 
         return self.chief, self.shaman_left, self.shaman_right
 
     def state_space(self):
         berries = np.concatenate(
-            (self.berries_left.reshape(16, 16, 1),  self.berries_right.reshape(16, 16, 1)),
+            (self.berries_left,  self.berries_right),
             axis=1
         )
         canvaz = np.concatenate(
-            (self.canvas_left.reshape(16, 16, 1), self.canvas_right.reshape(16, 16, 1)),
+            (self.canvas_left, self.canvas_right),
             axis=1
         )
         state = np.concatenate(
             (berries, canvaz),
             axis=0
         )
-        return np.array(state * 255, dtype=np.uint8)
+        return state
 
     def reward(self):
         return self.score()
 
     def exit_condition(self):
-        return self.steps > 20000
+        score = self.score()
+        return self.steps > 20000 or score > 100
 
     def force_condition(self):
         return False

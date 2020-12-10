@@ -31,14 +31,14 @@ logger.set_level(logger.INFO)
 outdir = 'results'
 model_path = Path(outdir)
 
-env = gym.make('numberx-v0', device=device)
+env = gym.make('numberx-serengeti-v0', device=device)
 env = wrappers.Monitor(env, directory=outdir, force=True)
 env.seed(0)
 env.reset()
 
 resize = T.Compose([
     T.ToPILImage(),
-    T.Resize((256, 512), interpolation=Image.CUBIC),
+    T.Resize((64, 64), interpolation=Image.CUBIC),
     T.ToTensor()
 ])
 
@@ -59,8 +59,8 @@ net = DQN(3, screen_height, screen_width, n_actions, device=device).to(device)
 optimizer = optim.Adam(net.parameters())
 policy = ts.policy.DQNPolicy(net, optimizer, discount_factor=0.9, estimation_step=3, target_update_freq=320)
 
-train_envs = ts.env.DummyVectorEnv([lambda: gym.make('numberx-v0') for _ in range(4)])
-test_envs = ts.env.DummyVectorEnv([lambda: gym.make('numberx-v0') for _ in range(8)])
+train_envs = ts.env.DummyVectorEnv([lambda: gym.make('numberx-serengeti-v0') for _ in range(4)])
+test_envs = ts.env.DummyVectorEnv([lambda: gym.make('numberx-serengeti-v0') for _ in range(8)])
 
 train_collector = ts.data.Collector(policy, train_envs, ts.data.ReplayBuffer(size=20000))
 test_collector = ts.data.Collector(policy, test_envs)
