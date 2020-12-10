@@ -15,7 +15,7 @@ class Shaman(Affordable):
         self.y = 0
 
     def available_actions(self):
-        return (NOOP, 'pu', 'pd', 'up', 'dn', 'lf', 'rt', 'rs')
+        return ('pu', 'pd', 'up', 'dn', 'lf', 'rt', 'rs')
 
     def reset(self):
         super(Shaman, self).reset()
