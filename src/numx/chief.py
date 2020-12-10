@@ -38,6 +38,16 @@ class Chief(Affordable):
         self.x = self.x + dx
         self.y = self.y + dy
 
+        if self.x > 5:
+            self.x = 5
+        elif self.x < -5:
+            self.x = 5
+
+        if self.y > 5:
+            self.y = 5
+        elif self.y < -5:
+            self.y = 5
+
     def lf(self):
         self.direction = (self.direction + 1) % 360
 

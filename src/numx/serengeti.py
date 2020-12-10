@@ -31,16 +31,10 @@ class Serengeti(AbstractGame):
         self.tribe = Tribe(32, 32, tribex, tribey, 0.0)
 
     def prosperity(self, xx, yy):
-        if np.all(np.abs(xx) > 5) or np.all(np.abs(yy) > 5):
-            return 0
-
         dx = xx - self.peakx
         dy = yy - self.peaky
         p = np.exp(- dx * dx - dy * dy) * (1 - self.alpha)
-        if np.any(np.isnan(p)):
-            return 0
-        else:
-            return p
+        return p
 
     def probability(self, xx, yy):
         noise = self.alpha * np.random.random()
@@ -53,16 +47,9 @@ class Serengeti(AbstractGame):
         return berries
 
     def score(self):
-        if np.all(np.abs(self.tribe.x) > 7) or np.all(np.abs(self.tribe.y) > 7):
-            return -1000
-
         dx = self.tribe.x - self.peakx
         dy = self.tribe.y - self.peaky
-        s = - np.log(1e-8 + dx * dx + dy * dy)
-        if np.any(np.isnan(s)):
-            return -500
-        else:
-            return s
+        return - np.log(1e-8 + dx * dx + dy * dy)
 
     def apply_effect(self):
         self.steps += 1
