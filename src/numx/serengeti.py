@@ -33,7 +33,11 @@ class Serengeti(AbstractGame):
     def prosperity(self, xx, yy):
         dx = xx - self.peakx
         dy = yy - self.peaky
-        return np.exp(- dx * dx - dy * dy) * (1 - self.alpha)
+        p = np.exp(- dx * dx - dy * dy) * (1 - self.alpha)
+        if np.isnan(p):
+            return 0
+        else:
+            return p
 
     def probability(self, xx, yy):
         noise = self.alpha * np.random.random()
