@@ -70,7 +70,7 @@ if __name__ == '__main__':
 
     result = ts.trainer.offpolicy_trainer(
         policy, train_collector, test_collector,
-        max_epoch=10, step_per_epoch=1000, collect_per_step=10,
+        max_epoch=1000, step_per_epoch=1000, collect_per_step=100,
         episode_per_test=100, batch_size=8,
         train_fn=lambda epoch, env_step: policy.set_eps(0.1),
         test_fn=lambda epoch, env_step: policy.set_eps(0.05),
@@ -79,8 +79,8 @@ if __name__ == '__main__':
 
     print(f'training | duration: {result["duration"]}, best: {result["best_reward"]}')
 
-    perf = env.game.performance()
-    dura = env.game.avg_duration()
+    perf = result["best_reward"]
+    dura = result["duration"]
 
     filepath = model_path / f'perf_{int(perf):010d}.duration_{int(dura):04d}.chk'
     torch.save(policy.state_dict(), filepath)
