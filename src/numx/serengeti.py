@@ -14,7 +14,6 @@ class Serengeti(AbstractGame):
         self.steps = 0
 
         self.alpha = alpha
-        self.size = size
 
         self.xmin = -2
         self.xmax = +2
@@ -23,6 +22,7 @@ class Serengeti(AbstractGame):
         self.peakx = np.random.random() * (self.xmax - self.xmin) + self.xmin
         self.peaky = np.random.random() * (self.ymax - self.ymin) + self.ymin
 
+        self.size = size
         self.berries_left = np.zeros((size, size))
         self.berries_right = np.zeros((size, size))
         self.canvas_left = np.zeros((size, size))
