@@ -53,7 +53,7 @@ class Serengeti(AbstractGame):
 
     def apply_effect(self):
         self.steps += 1
-        if self.steps % 100 == 0:
+        if self.steps % 20 == 0:
             self.apply_tribe_effect()
         self.apply_shaman_effect()
         self.apply_chief_effect()
@@ -102,7 +102,7 @@ class Serengeti(AbstractGame):
     def exit_condition(self):
         score = self.score()
         steps = self.steps
-        return steps > 20000 or score > 5
+        return steps > 2000 or score > 5
 
     def force_condition(self):
         return False
