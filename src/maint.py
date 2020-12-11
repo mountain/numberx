@@ -59,8 +59,8 @@ n_actions = [len(env.action_space)]
 class Net(nn.Module):
     def __init__(self, state_shape, action_shape):
         super().__init__()
-        self.dqn = DQN(3, state_shape[0], state_shape[1], 1024, device=device)
-        self.recurr = Recurrent(3, 1024, action_shape, device=device)
+        self.dqn = DQN(3, state_shape[0], state_shape[1], 4096, device=device)
+        self.recurr = Recurrent(3, 4096, action_shape, device=device)
 
     def forward(self, obs, state=None, info={}):
         if not isinstance(obs, torch.Tensor):
