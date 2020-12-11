@@ -9,6 +9,9 @@ class Tribe:
         self.x = x
         self.y = y
 
+        self.map = np.zeros((2 * width, 2 * height))
+        self.ratio = 7 / 2 / width
+
     def left_wing(self):
         xx, yy = np.meshgrid(np.linspace(-1, 1, self.height), np.linspace(-1, 1, self.width))
         xx, yy = xx - 1, yy + 0.5
@@ -26,3 +29,9 @@ class Tribe:
         xx, yy = rr * np.cos(phi) / 10, rr * np.sin(phi) / 10
         xx, yy = xx + self.x, yy + self.y
         return xx, yy
+
+    def draw_map(self, sourcex, sourcey, targetx, targety):
+        for t in range(2 * self.width):
+            x = int(self.ratio * (sourcex + t * (targetx - sourcex) / 2 / self.width))
+            y = int(self.ratio * (sourcey + t * (targety - sourcey) / 2 / self.width))
+            self.map[y, x] = 1.0

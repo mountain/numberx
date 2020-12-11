@@ -7,13 +7,15 @@ from numx.chief import Chief
 
 
 class Serengeti(AbstractGame):
-    def __init__(self, ctx, alpha=0.01, device='cpu'):
+    def __init__(self, ctx, alpha=0.01, size=24, device='cpu'):
         super(Serengeti, self).__init__(ctx)
         self.device = device
 
         self.steps = 0
 
         self.alpha = alpha
+        self.size = size
+
         self.xmin = -2
         self.xmax = +2
         self.ymin = -2
@@ -21,10 +23,11 @@ class Serengeti(AbstractGame):
         self.peakx = np.random.random() * (self.xmax - self.xmin) + self.xmin
         self.peaky = np.random.random() * (self.ymax - self.ymin) + self.ymin
 
-        self.berries_left = np.zeros((24, 24))
-        self.berries_right = np.zeros((24, 24))
-        self.canvas_left = np.zeros((24, 24))
-        self.canvas_right = np.zeros((24, 24))
+        self.berries_left = np.zeros((size, size))
+        self.berries_right = np.zeros((size, size))
+        self.canvas_left = np.zeros((size, size))
+        self.canvas_right = np.zeros((size, size))
+        self.map = np.zeros((2 * size, 2 * size))
 
         tribex = np.random.random() * (self.xmax - self.xmin) + self.xmin
         tribey = np.random.random() * (self.ymax - self.ymin) + self.ymin
@@ -67,9 +70,17 @@ class Serengeti(AbstractGame):
         np.copyto(self.canvas_right, self.shaman_right.canvas)
 
     def apply_chief_effect(self):
-        self.tribe.x = self.chief.x
-        self.tribe.y = self.chief.y
+        sourcex = self.tribe.x
+        sourcey = self.tribe.y
+        targetx = self.chief.x
+        targety = self.chief.y
+
+        self.tribe.x = targetx
+        self.tribe.y = targety
         self.tribe.direction = self.chief.direction
+
+        self.tribe.draw_map(sourcex, sourcey, targetx, targety)
+        np.copyto(self.map, self.tribe.map)
 
     def reset(self):
         super(Serengeti, self).reset()
@@ -91,7 +102,7 @@ class Serengeti(AbstractGame):
             axis=1
         )
         state = np.concatenate(
-            (berries, canvaz),
+            (berries, canvaz, self.map),
             axis=0
         )
         return state
