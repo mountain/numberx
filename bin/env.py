@@ -63,5 +63,6 @@ if not os.path.exists(".py"):
         sys.argv = ['.py']
         venv.cli_run(sys.argv)
     else:
-        sys.argv = ['virtualenv', '.py']
-        venv.main()
+        sys.argv = ['.py']
+        #venv.main()
+        venv.cli_run(sys.argv)

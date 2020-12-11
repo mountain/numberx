@@ -53,7 +53,8 @@ class Serengeti(AbstractGame):
 
     def apply_effect(self):
         self.steps += 1
-        self.apply_tribe_effect()
+        if self.steps % 100 == 0:
+            self.apply_tribe_effect()
         self.apply_shaman_effect()
         self.apply_chief_effect()
 
