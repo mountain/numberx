@@ -55,10 +55,23 @@ init_screen = get_screen(env, device)
 _, _, screen_height, screen_width = init_screen.shape
 n_actions = [len(env.action_space)]
 
-net = nn.Sequential(
-    DQN(3, screen_height, screen_width, 1000),
-    Recurrent(3, 1000, n_actions)
-).to(device)
+
+class Net(nn.Module):
+    def __init__(self, state_shape, action_shape):
+        super().__init__()
+        self.dqn = DQN(3, state_shape[0], state_shape[1], 1000)
+        self.recurr = Recurrent(3, 1000, action_shape)
+
+    def forward(self, obs, state=None, info={}):
+        if not isinstance(obs, torch.Tensor):
+            obs = torch.tensor(obs, dtype=torch.float)
+        encoding, state = self.dqn(obs, state=state)
+        result, state = self.recurr(encoding, state)
+        return result, state
+
+
+net = Net([screen_height, screen_width], n_actions).to(device)
+
 
 optimizer = optim.Adam(net.parameters())
 policy = ts.policy.DQNPolicy(net, optimizer, discount_factor=0.9, estimation_step=3, target_update_freq=320)
