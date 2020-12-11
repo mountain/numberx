@@ -31,7 +31,7 @@ class Serengeti(AbstractGame):
 
         tribex = np.random.random() * (self.xmax - self.xmin) + self.xmin
         tribey = np.random.random() * (self.ymax - self.ymin) + self.ymin
-        self.tribe = Tribe(24, 24, tribex, tribey, 0.0)
+        self.tribe = Tribe(size, size, tribex, tribey, 0.0)
 
     def prosperity(self, xx, yy):
         dx = xx - self.peakx
