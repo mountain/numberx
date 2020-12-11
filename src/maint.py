@@ -66,7 +66,7 @@ class Net(nn.Module):
         if not isinstance(obs, torch.Tensor):
             obs = torch.tensor(obs, dtype=torch.float)
             if cuda:
-                obs = obs.cuda()
+                obs = obs.cuda().to(device)
 
         encoding, state = self.dqn(obs, state=state)
         result, state = self.recurr(encoding, state)
