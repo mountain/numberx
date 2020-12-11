@@ -7,7 +7,7 @@ from numx.chief import Chief
 
 
 class Serengeti(AbstractGame):
-    def __init__(self, ctx, alpha=0.01, size=18, device='cpu'):
+    def __init__(self, ctx, alpha=0.01, size=12, device='cpu'):
         super(Serengeti, self).__init__(ctx)
         self.device = device
 
@@ -86,9 +86,9 @@ class Serengeti(AbstractGame):
         super(Serengeti, self).reset()
 
     def all_affordables(self):
-        self.chief = Chief(self.ctx, 24, 24)
-        self.shaman_left = Shaman(self.ctx, 'lshaman', 24, 24)
-        self.shaman_right = Shaman(self.ctx, 'rshaman', 24, 24)
+        self.chief = Chief(self.ctx, self.size, self.size)
+        self.shaman_left = Shaman(self.ctx, 'lshaman', self.size, self.size)
+        self.shaman_right = Shaman(self.ctx, 'rshaman', self.size, self.size)
 
         return self.chief, self.shaman_left, self.shaman_right
 
