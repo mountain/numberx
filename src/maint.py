@@ -9,12 +9,14 @@ import argparse
 import tianshou as ts
 
 import torch
+import torch.nn as nn
 import torch.optim as optim
 import torchvision.transforms as T
 
 from pathlib import Path
 from gym import wrappers, logger
 from tianshou.utils.net.discrete import DQN
+from tianshou.utils.net.common import Recurrent
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-n", type=int, default=256, help="number of epochs of training")
@@ -53,7 +55,11 @@ init_screen = get_screen(env, device)
 _, _, screen_height, screen_width = init_screen.shape
 n_actions = [len(env.action_space)]
 
-net = DQN(3, screen_height, screen_width, n_actions, device=device).to(device)
+net = nn.Sequential(
+    DQN(3, screen_height, screen_width, 1000),
+    Recurrent(3, 1000, n_actions)
+).to(device)
+
 optimizer = optim.Adam(net.parameters())
 policy = ts.policy.DQNPolicy(net, optimizer, discount_factor=0.9, estimation_step=3, target_update_freq=320)
 
