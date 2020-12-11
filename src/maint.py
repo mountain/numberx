@@ -72,6 +72,7 @@ class Net(nn.Module):
                 obs = obs.cuda().to(device)
 
         encoding, state = self.dqn(obs, state=state)
+        print(encoding.device, self.recurr.device)
         result, state = self.recurr(encoding, state=state)
         return result, state
 
