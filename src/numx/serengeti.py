@@ -102,7 +102,7 @@ class Serengeti(AbstractGame):
     def exit_condition(self):
         score = self.score()
         steps = self.steps
-        return steps > 2000 or score > 5
+        return steps > 20000 or score > 5
 
     def force_condition(self):
         return False
