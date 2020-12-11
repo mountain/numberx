@@ -7,7 +7,7 @@ from numx.chief import Chief
 
 
 class Serengeti(AbstractGame):
-    def __init__(self, ctx, alpha=0.01, size=12, device='cpu'):
+    def __init__(self, ctx, alpha=0.01, device='cpu'):
         super(Serengeti, self).__init__(ctx)
         self.device = device
 
@@ -22,6 +22,7 @@ class Serengeti(AbstractGame):
         self.peakx = np.random.random() * (self.xmax - self.xmin) + self.xmin
         self.peaky = np.random.random() * (self.ymax - self.ymin) + self.ymin
 
+        size = self.ctx['size'] if 'size' in self.ctx else 10
         self.size = size
         self.berries_left = np.zeros((size, size))
         self.berries_right = np.zeros((size, size))
@@ -86,9 +87,10 @@ class Serengeti(AbstractGame):
         super(Serengeti, self).reset()
 
     def all_affordables(self):
-        self.chief = Chief(self.ctx, self.size, self.size)
-        self.shaman_left = Shaman(self.ctx, 'lshaman', self.size, self.size)
-        self.shaman_right = Shaman(self.ctx, 'rshaman', self.size, self.size)
+        size = self.ctx['size'] if 'size' in self.ctx else 10
+        self.chief = Chief(self.ctx, size, size)
+        self.shaman_left = Shaman(self.ctx, 'lshaman', size, size)
+        self.shaman_right = Shaman(self.ctx, 'rshaman', size, size)
 
         return self.chief, self.shaman_left, self.shaman_right
 
