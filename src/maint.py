@@ -61,6 +61,9 @@ class Net(nn.Module):
         super().__init__()
         self.dqn = DQN(3, state_shape[0], state_shape[1], 1024)
         self.recurr = Recurrent(3, 1024, action_shape)
+        if cuda:
+            self.dqn = self.dqn.cuda().to(device)
+            self.recurr = self.recurr.cuda().to(device)
 
     def forward(self, obs, state=None, info={}):
         if not isinstance(obs, torch.Tensor):
