@@ -7,7 +7,7 @@ from numx.chief import Chief
 
 
 class Serengeti(AbstractGame):
-    def __init__(self, ctx, alpha=0.01, size=24, device='cpu'):
+    def __init__(self, ctx, alpha=0.01, size=18, device='cpu'):
         super(Serengeti, self).__init__(ctx)
         self.device = device
 
