@@ -60,7 +60,7 @@ class Net(nn.Module):
     def __init__(self, state_shape, action_shape):
         super().__init__()
         self.dqn = DQN(3, state_shape[0], state_shape[1], 1024)
-        self.recurr = Recurrent(3, 1000, action_shape)
+        self.recurr = Recurrent(3, 1024, action_shape)
 
     def forward(self, obs, state=None, info={}):
         if not isinstance(obs, torch.Tensor):
@@ -73,8 +73,9 @@ class Net(nn.Module):
         return result, state
 
 
-net = Net([screen_height, screen_width], n_actions).cuda().to(device)
-
+net = Net([screen_height, screen_width], n_actions)
+if cuda:
+    net = net.cuda().to(device)
 
 optimizer = optim.Adam(net.parameters())
 policy = ts.policy.DQNPolicy(net, optimizer, discount_factor=0.9, estimation_step=3, target_update_freq=320)
