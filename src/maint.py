@@ -65,6 +65,9 @@ class Net(nn.Module):
     def forward(self, obs, state=None, info={}):
         if not isinstance(obs, torch.Tensor):
             obs = torch.tensor(obs, dtype=torch.float)
+            if cuda:
+                obs = obs.cuda()
+
         encoding, state = self.dqn(obs, state=state)
         result, state = self.recurr(encoding, state)
         return result, state
