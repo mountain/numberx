@@ -59,7 +59,7 @@ n_actions = [len(env.action_space)]
 class Net(nn.Module):
     def __init__(self, state_shape, action_shape):
         super().__init__()
-        self.dqn = DQN(3, state_shape[0], state_shape[1], 1000)
+        self.dqn = DQN(3, state_shape[0], state_shape[1], 1024)
         self.recurr = Recurrent(3, 1000, action_shape)
 
     def forward(self, obs, state=None, info={}):
@@ -69,11 +69,11 @@ class Net(nn.Module):
                 obs = obs.cuda().to(device)
 
         encoding, state = self.dqn(obs, state=state)
-        result, state = self.recurr(encoding, state)
+        result, state = self.recurr(encoding, state=state)
         return result, state
 
 
-net = Net([screen_height, screen_width], n_actions).to(device)
+net = Net([screen_height, screen_width], n_actions).cuda().to(device)
 
 
 optimizer = optim.Adam(net.parameters())
