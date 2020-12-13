@@ -49,7 +49,7 @@ class Chief(Affordable):
         self.direction = (self.direction + 360 - 180 * 0.618) % 360
 
     def gu(self):
-        self.speed = self.speed * 1.618
+        self.speed = self.speed + 0.5
         if self.speed > 1.0:
             self.speed = 1.0
 
