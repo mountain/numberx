@@ -43,10 +43,10 @@ class Chief(Affordable):
             self.y = self.y / r * 7
 
     def lf(self):
-        self.direction = (self.direction + 180 * 0.618) % 360
+        self.direction = (self.direction + 360 * 0.618) % 360
 
     def rt(self):
-        self.direction = (self.direction + 360 - 180 * 0.618) % 360
+        self.direction = (self.direction + 360 - 360 * 0.618) % 360
 
     def gu(self):
         self.speed = self.speed + 0.5
