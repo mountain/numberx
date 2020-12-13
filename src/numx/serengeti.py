@@ -28,7 +28,7 @@ class Serengeti(AbstractGame):
         self.berries_right = np.zeros((size, size))
         self.canvas_left = np.zeros((size, size))
         self.canvas_right = np.zeros((size, size))
-        #self.map = np.zeros((2 * size, 2 * size))
+        self.map = np.zeros((2 * size, 2 * size))
 
         tribex = np.random.random() * (self.xmax - self.xmin) + self.xmin
         tribey = np.random.random() * (self.ymax - self.ymin) + self.ymin
@@ -81,7 +81,7 @@ class Serengeti(AbstractGame):
         self.tribe.direction = self.chief.direction
 
         self.tribe.draw_map(sourcex, sourcey, targetx, targety)
-        # np.copyto(self.map, self.tribe.map)
+        np.copyto(self.map, self.tribe.map)
 
     def reset(self):
         super(Serengeti, self).reset()
@@ -104,8 +104,7 @@ class Serengeti(AbstractGame):
             axis=1
         )
         state = np.concatenate(
-            # (berries, canvaz, self.map),
-            (berries, canvaz),
+            (berries, canvaz, self.map),
             axis=0
         )
         return state
