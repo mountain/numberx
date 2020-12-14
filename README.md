@@ -24,9 +24,9 @@ The meaning of the symbols in a numeral system can be fully explained by some ge
 FAQ
 ====
 
-* What is the differences between [deepmind/mathematics_dataset] and this project?
+* What is the differences between [deepmind/mathematics_dataset](https://github.com/deepmind/mathematics_dataset) and this project?
 
-deepmind/mathematics_dataset is a supervised learning task, 
+[deepmind/mathematics_dataset](https://github.com/deepmind/mathematics_dataset) is a supervised learning task, 
 while our gym environments try to define some unsupervised learning task in which the inventiona of numeral symbols and ability of counting is mandatory.
 
 ----
