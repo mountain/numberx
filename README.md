@@ -13,8 +13,8 @@ And here, I give a modified version. A numeral system is required
 The above conditions showed that a good formal definition of general numeral system is needed,
 and Peano system is only one example.
 
-Though we need to develop a formal definition of general numeral system, our perspective is not formal.
-We propose a geometrical point of view for human knowledge.
+Though we need to develop a formal definition of general numeral system, our perspective is not formal based on strings.
+We propose a geometrical formal point of view for human knowledge.
 
 We believe there are optimization processes happened in the invention history of numbers,
 so we can reinvent numbers by optimization processes again now by RL.
