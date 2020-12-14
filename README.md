@@ -16,8 +16,8 @@ and Peano system is only one example.
 Though we need to develop a formal definition of general numeral system, our perspective is not formal based on strings.
 We propose a geometrical formal point of view for human knowledge.
 
-We believe there are optimization processes happened in the invention history of numbers,
-so we can reinvent numbers by optimization processes again now by RL.
+We believe the invention history of numbers was driven by some natural optimization processes,
+so now we can reinvent numbers again by RL.
 
 The meaning of the symbols in a numeral system can be fully explained by some geometrical object which enjoy some minimal measurement.
 
