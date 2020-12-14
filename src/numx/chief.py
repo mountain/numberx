@@ -18,6 +18,7 @@ class Chief(Affordable):
         self.y = y
 
     def available_actions(self):
+        # return 'kp', 'lf', 'rt', 'gu', 'gd'
         return 'lf', 'rt', 'gu', 'gd'
 
     def reset(self):
@@ -50,17 +51,17 @@ class Chief(Affordable):
 
     # def kp(self):
     #     self.direction = (self.direction + self.rotation) % 360
-    #     self.rotation = self.rotation * 0.618
+    #     self.rotation = self.rotation * phi
 
     def lf(self):
         # self.direction = (self.direction + self.rotation) % 360
-        # self.rotation = self.rotation * 0.618
+        # self.rotation = self.rotation * phi
         # self.rotation = self.rotation - 360
         self.direction = (self.direction - 360 * phi + 360) % 360
 
     def rt(self):
         # self.direction = (self.direction + self.rotation) % 360
-        # self.rotation = self.rotation * 0.618
+        # self.rotation = self.rotation * phi
         # self.rotation = self.rotation + 360
         self.direction = (self.direction + 360 * phi) % 360
 
