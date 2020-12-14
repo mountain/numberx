@@ -15,17 +15,15 @@ class Chief(Affordable):
         self.y = y
 
     def available_actions(self):
-        return 'kp', 'lf', 'rt', 'gu', 'gd'
+        return 'lf', 'rt', 'gu', 'gd'
 
     def reset(self):
         super(Chief, self).reset()
 
     def act(self, action):
         action = get_action(self.ctx, action=action).chief
-        if action == 'kp':
-            self.kp()
-        elif action == 'lf':
-                self.lf()
+        if action == 'lf':
+            self.lf()
         elif action == 'rt':
             self.rt()
         elif action == 'gu':
@@ -45,19 +43,11 @@ class Chief(Affordable):
             self.x = self.x / r * 7
             self.y = self.y / r * 7
 
-    def kp(self):
-        self.direction = (self.direction + self.rotation) % 360
-        self.rotation = self.rotation * 0.618
-
     def lf(self):
-        self.direction = (self.direction + self.rotation) % 360
-        self.rotation = self.rotation * 0.618
-        self.rotation = self.rotation - 360
+        self.direction = ((self.direction + 360) * 0.618) % 360
 
     def rt(self):
-        self.direction = (self.direction + self.rotation) % 360
-        self.rotation = self.rotation * 0.618
-        self.rotation = self.rotation + 360
+        self.direction = ((self.direction - 360) * 0.618) % 360
 
     def gu(self):
         self.speed = self.speed + 0.5
