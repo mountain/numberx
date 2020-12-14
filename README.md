@@ -14,7 +14,7 @@ The above conditions showed that a good formal definition of general numeral sys
 and Peano system is only one example.
 
 Though we need to develop a formal definition of general numeral system, our perspective is not formal based on strings.
-We propose a geometrical formal point of view for human knowledge.
+We propose a geometrically formal point of view for human knowledge.
 
 We believe the invention history of numbers was driven by some natural optimization processes,
 so now we can reinvent numbers again by RL.
