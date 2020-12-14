@@ -21,11 +21,16 @@ so now we can reinvent numbers again by RL.
 
 The meaning of the symbols in a numeral system can be fully explained by some geometrical object which enjoy some minimal measurements.
 
-Current progress
+Current progress and todos
 ================
+progress
+
 * We are still trying to formulate the problem into a proper form
 * We proposed a gym env Serengeti that need an invention of numeral symbols and the ability of counting.
 
+TODOs
+
+* Develop a hierarchical RL env 
 
 How to play
 ===========
