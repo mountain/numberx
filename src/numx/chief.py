@@ -22,7 +22,9 @@ class Chief(Affordable):
 
     def act(self, action):
         action = get_action(self.ctx, action=action).chief
-        if action == 'lf':
+        if action == 'kp':
+            self.kp()
+        elif action == 'lf':
             self.lf()
         elif action == 'rt':
             self.rt()
@@ -43,11 +45,19 @@ class Chief(Affordable):
             self.x = self.x / r * 7
             self.y = self.y / r * 7
 
+    def kp(self):
+        self.direction = (self.direction + self.rotation) % 360
+        self.rotation = self.rotation * 0.618
+
     def lf(self):
-        self.direction = (self.direction + 360 * 0.618) % 360
+        self.direction = (self.direction + self.rotation) % 360
+        self.rotation = self.rotation * 0.618
+        self.rotation = self.rotation - 360
 
     def rt(self):
-        self.direction = (self.direction - 360 * 0.618 + 360) % 360
+        self.direction = (self.direction + self.rotation) % 360
+        self.rotation = self.rotation * 0.618
+        self.rotation = self.rotation + 360
 
     def gu(self):
         self.speed = self.speed + 0.5
