@@ -21,6 +21,16 @@ so now we can reinvent numbers again by RL.
 
 The meaning of the symbols in a numeral system can be fully explained by some geometrical object which enjoy some minimal measurements.
 
+How to play
+===========
+
+```bash
+git clone git@github.com:mountain/numberx.git
+cd numberx
+. hello
+python -m main -g 0
+```
+
 FAQ
 ====
 
