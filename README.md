@@ -23,7 +23,7 @@ The meaning of the symbols in a numeral system can be fully explained by some ge
 
 Current progress and todos
 ================
-progress
+Progress
 
 * We are still trying to formulate the problem into a proper form
 * We proposed a gym env Serengeti that need an invention of numeral symbols and the ability of counting.
