@@ -78,7 +78,7 @@ if cuda:
     net = net.cuda().to(device)
 
 optimizer = optim.Adam(net.parameters())
-policy = ts.policy.DQNPolicy(net, optimizer, discount_factor=0.9, estimation_step=3, target_update_freq=320)
+policy = ts.policy.DQNPolicy(net, optimizer, discount_factor=0.9, estimation_step=3, target_update_freq=32)
 
 train_envs = ts.env.ShmemVectorEnv([lambda: gym.make('numberx-serengeti-v0') for _ in range(64)])
 test_envs = ts.env.ShmemVectorEnv([lambda: gym.make('numberx-serengeti-v0') for _ in range(128)])

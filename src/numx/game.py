@@ -72,7 +72,7 @@ class AbstractGame(Affordable):
     def state(self):
         import collections
 
-        holders = self.affordables + [self.ctx['agent'].eye]
+        holders = self.affordables
         fields = [a.name() for a in holders]
         s = collections.namedtuple('State', fields)._make([a.state() for a in holders])
         return s
