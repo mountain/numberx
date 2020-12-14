@@ -19,7 +19,7 @@ We propose a geometrical formal point of view for human knowledge.
 We believe the invention history of numbers was driven by some natural optimization processes,
 so now we can reinvent numbers again by RL.
 
-The meaning of the symbols in a numeral system can be fully explained by some geometrical object which enjoy some minimal measurement.
+The meaning of the symbols in a numeral system can be fully explained by some geometrical object which enjoy some minimal measurements.
 
 [1] James R Hurford: [ARTIFICIALLY GROWING A NUMERAL SYSTEM](http://www.lel.ed.ac.uk/~jim/grownum.html)
 
