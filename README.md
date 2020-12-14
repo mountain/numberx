@@ -4,13 +4,13 @@ Numeral system is one basic symbolic system for humankind. Various study in anth
 the natrual numeral system developed by human are sophisticated and diversed.
 
 In the article [1], the author had given several conditions on a good numeral system.
-Here I give a modified version. A numeral system is required
+And here, I give a modified version. A numeral system is required
 * to be a completely covering under a limit
 * not to have any ambiguity or homonymy
 * to have few or no redundancy (considering the problem of 1 = 0.99999...)
 * to have a construct method to extend the system further above any limit
 
-The above points showed that a good formal definition of general numeral system is needed,
+The above conditions showed that a good formal definition of general numeral system is needed,
 and Peano system is only one example.
 
 Though we need to develop a formal definition of general numeral system, our perspective is not formal.
