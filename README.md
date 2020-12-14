@@ -5,7 +5,7 @@ the natrual numeral system developed by human are sophisticated and diversed. Ca
 
 In the article [1], the author had given several conditions on a good numeral system.
 And here, I give a modified version. A numeral system is required
-* to be a completely covering under a limit
+* to be a complete covering under a limit
 * not to have any ambiguity or homonymy
 * to have few or no redundancy (considering the problem of 1 = 0.99999...)
 * to have a construct method to extend the system further above any limit
