@@ -52,12 +52,12 @@ class Chief(Affordable):
     def lf(self):
         self.direction = (self.direction + self.rotation) % 360
         self.rotation = self.rotation * 0.618
-        self.rotation = self.rotation - 60
+        self.rotation = self.rotation - 360
 
     def rt(self):
         self.direction = (self.direction + self.rotation) % 360
         self.rotation = self.rotation * 0.618
-        self.rotation = self.rotation + 60
+        self.rotation = self.rotation + 360
 
     def gu(self):
         self.speed = self.speed + 0.5
