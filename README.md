@@ -1,6 +1,6 @@
 # NumberX: reinvent the numbers again through RL
 
-Numeral system is one basic symbolic system for humankind. Various study in anthropology and linguistics showed that
+Numeral system is one basic symbolic system of our humankind. Various study in anthropology and linguistics showed that
 the natrual numeral system developed by human are sophisticated and diversed.
 
 In the article [1], the author had given several conditions on a good numeral system.
