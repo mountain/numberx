@@ -23,7 +23,7 @@ The meaning of the symbols in a numeral system can be fully explained by some ge
 That is a geometrical theory at meta level.
 
 Current progress and todos
-================
+==========================
 Progress
 
 * We are still trying to formulate the problem into a proper form
@@ -42,6 +42,13 @@ cd numberx
 . hello
 python -m main -g 0
 ```
+
+How to contribute
+=================
+
+* formulate the problem into a proper form
+* define a new simpler gym which still can capture the nature of numeral system
+* give RL algorithms can solve the gym problems efficiently
 
 FAQ
 ====
