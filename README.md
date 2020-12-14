@@ -36,10 +36,19 @@ TODOs
 How to play
 ===========
 
+In Bash:
 ```bash
 git clone git@github.com:mountain/numberx.git
 cd numberx
 . hello
+python -m main -g 0
+```
+
+In zsh
+```zsh
+git clone git@github.com:mountain/numberx.git
+cd numberx
+. ./hello
 python -m main -g 0
 ```
 
