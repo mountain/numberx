@@ -48,7 +48,7 @@ FAQ
 * What is the differences between [deepmind/mathematics_dataset](https://github.com/deepmind/mathematics_dataset) and this project?
 
 [deepmind/mathematics_dataset](https://github.com/deepmind/mathematics_dataset) is a supervised learning task, 
-while our gym environments try to define some unsupervised learning task in which the invention of numeral symbols and ability of counting are mandatory.
+while our gym environments try to define some unsupervised learning tasks in which the invention of numeral symbols and ability of counting are mandatory.
 
 ----
 
