@@ -20,6 +20,7 @@ We believe the invention history of numbers was driven by some natural optimizat
 so now we can reinvent numbers again by RL.
 
 The meaning of the symbols in a numeral system can be fully explained by some geometrical object which enjoy some minimal measurements.
+That is a geometrical theory at meta level.
 
 Current progress and todos
 ================
