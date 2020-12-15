@@ -1,6 +1,6 @@
 import numpy as np
 
-from numx.affordable import Affordable, NOOP, get_action
+from affordable.affordable import Affordable, get_action
 
 
 phi = (np.sqrt(5) - 1) / 2.0

@@ -1,6 +1,6 @@
 import numpy as np
 
-from numx.affordable import Affordable, NOOP, IDLE, get_action
+from affordable.affordable import Affordable, get_action
 
 
 class Shaman(Affordable):

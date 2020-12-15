@@ -1,6 +1,6 @@
 import numpy as np
 
-from numx.game import AbstractGame
+from affordable.game import AbstractGame
 from numx.tribe import Tribe
 from numx.shaman import Shaman
 from numx.chief import Chief
@@ -8,7 +8,7 @@ from numx.chief import Chief
 
 class Serengeti(AbstractGame):
     def __init__(self, ctx, alpha=0.01, device='cpu'):
-        super(Serengeti, self).__init__(ctx)
+        super(Serengeti, self).__init__(ctx, 'serengeti')
         self.device = device
 
         self.steps = 0
