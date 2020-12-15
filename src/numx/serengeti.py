@@ -22,7 +22,7 @@ class Serengeti(AbstractGame):
         self.peakx = np.random.random() * (self.xmax - self.xmin) + self.xmin
         self.peaky = np.random.random() * (self.ymax - self.ymin) + self.ymin
 
-        size = self.ctx['size'] if 'size' in self.ctx else 18
+        size = self.ctx['size'] if 'size' in self.ctx else 64
         self.size = size
         self.berries_left = np.zeros((size, size))
         self.berries_right = np.zeros((size, size))
@@ -87,7 +87,7 @@ class Serengeti(AbstractGame):
         super(Serengeti, self).reset()
 
     def all_affordables(self):
-        size = self.ctx['size'] if 'size' in self.ctx else 18
+        size = self.ctx['size'] if 'size' in self.ctx else 64
         self.chief = Chief(self.ctx, size, size)
         self.shaman_left = Shaman(self.ctx, 'lshaman', size, size)
         self.shaman_right = Shaman(self.ctx, 'rshaman', size, size)

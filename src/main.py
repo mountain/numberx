@@ -5,6 +5,7 @@ import gym_numberx
 import os
 import gym
 import numpy as np
+import torch as th
 import argparse
 import tianshou as ts
 
@@ -59,7 +60,14 @@ n_actions = [len(env.action_space)]
 class Net(nn.Module):
     def __init__(self, state_shape, action_shape):
         super().__init__()
-        self.dqn = DQN(3, state_shape[0], state_shape[1], 4096, device=device)
+        h, w = state_shape[0], state_shape[1]
+        assert h == 2 * w
+        self.h = h
+        self.w = w
+
+        self.dqn_lnd = DQN(3, h // 4, w // 2, 512, device=device)
+        self.dqn_brd = DQN(3, h // 4, w // 2, 512, device=device)
+        self.dqn_map = DQN(3, h // 2, w, 2048, device=device)
         self.recurr = Recurrent(3, 4096, action_shape, device=device)
 
     def forward(self, obs, state=None, info={}):
@@ -68,8 +76,15 @@ class Net(nn.Module):
             if cuda:
                 obs = obs.cuda().to(device)
 
-        encoding, state = self.dqn(obs, state=state)
-        result, state = self.recurr(encoding, state=state)
+        lndl, lndr = obs[:, :, 0:self.h // 4, 0:self.w // 2], obs[:, :, 0:self.h // 4, self.w // 2:self.w]
+        brdl, brdr = obs[:, :, self.h // 4:self.h // 2, 0:self.w // 2], obs[:, :, self.h // 4:self.h // 2, self.w // 2:self.w]
+        map = obs[:, :, self.h // 2:self.h, :]
+        enc_lnd_l, _ = self.dqn_lnd(lndl, state=None)
+        enc_lnd_r, _ = self.dqn_lnd(lndr, state=None)
+        enc_brd_l, _ = self.dqn_brd(brdl, state=None)
+        enc_brd_r, _ = self.dqn_brd(brdr, state=None)
+        enc_map, _ = self.dqn_map(map, state=None)
+        result, state = self.recurr(th.cat((enc_lnd_l, enc_lnd_r, enc_brd_l, enc_brd_r, enc_map), dim=1), state=state)
         return result, state
 
 
