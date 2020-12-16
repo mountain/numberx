@@ -8,6 +8,7 @@ import numpy as np
 import torch as th
 import argparse
 import tianshou as ts
+import time
 
 import torch
 import torch.nn as nn
@@ -35,7 +36,7 @@ model_path = Path(outdir)
 
 env = gym.make('numberx-serengeti-v0', device=device)
 env = wrappers.Monitor(env, directory=outdir, force=True)
-env.seed(0)
+env.seed(int(time.time()))
 env.reset()
 
 resize = T.Compose([
