@@ -1,4 +1,5 @@
 import numpy as np
+import cv2
 
 from affordable.game import AbstractGame
 from numx.tribe import Tribe
@@ -32,6 +33,9 @@ class Serengeti(AbstractGame):
         self.canvas_right = np.zeros((size, size))
         self.map = np.zeros((2 * size, 2 * size))
 
+        self.score_img = np.zeros((self.size // 2, 2 * size), dtype=np.uint8)
+        self.total_score = 0.0
+
         IX, IY = np.meshgrid(
             np.linspace(self.xmin, self.xmax, num=2 * size),
             np.linspace(self.ymin, self.ymax, num=2 * size),
@@ -60,14 +64,23 @@ class Serengeti(AbstractGame):
         return berries
 
     def score(self):
-        return np.sum(self.berries_left) + np.sum(self.berries_right)
+        sl = np.sum(self.berries_left)
+        sr = np.sum(self.berries_right)
+        st = sl + sr
+        self.total_score = self.total_score + st
+        self.score_img = np.zeros((self.size // 2, 2 * self.size), dtype=np.uint8)
+        cv2.putText(self.score_img, '%03d' % sl, (2 * self.size // 8 * 1, self.size // 4), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
+        cv2.putText(self.score_img, '%03d' % sr, (2 * self.size // 8 * 3, self.size // 4), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
+        cv2.putText(self.score_img, '%06d' % self.total_score, (2 * self.size // 8 * 5, self.size // 4), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
+        return self.total_score
 
     def apply_effect(self):
         self.steps += 1
-        if self.steps % 20 == 0:
-            self.apply_tribe_effect()
         self.apply_shaman_effect()
         self.apply_chief_effect()
+        if self.steps % 20 == 0:
+            self.apply_tribe_effect()
+            self.score()
 
         if self.mode == 'revealed':
             self.map[self.YS * self.XS] = 1.0
@@ -100,6 +113,8 @@ class Serengeti(AbstractGame):
     def reset(self):
         super(Serengeti, self).reset()
         self.map = np.zeros((2 * self.size, 2 * self.size))
+        self.score_img = np.zeros((self.size // 2, 2 * self.size), dtype=np.uint8)
+        self.total_score = 0
 
     def all_affordables(self):
         size = self.ctx['size'] if 'size' in self.ctx else 64
@@ -126,8 +141,10 @@ class Serengeti(AbstractGame):
             (self.canvas_left, self.canvas_right),
             axis=1
         )
+        score = np.array(self.score_img, dtype=np.float) / 255
+
         state = np.concatenate(
-            (berries, canvaz, self.map),
+            (berries, canvaz, self.map, score),
             axis=0
         )
         return state
