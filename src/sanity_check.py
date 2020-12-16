@@ -4,13 +4,14 @@
 import gym_numberx
 
 import gym
+import time
 import argparse
 
 from gym import wrappers, logger
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-n", type=int, default=1000, help="number of epochs of training")
+parser.add_argument("-n", type=int, default=2000, help="number of epochs of training")
 opt = parser.parse_args()
 
 
@@ -22,7 +23,7 @@ if __name__ == '__main__':
 
     outdir = 'results'
     env = wrappers.Monitor(env, directory=outdir, force=True)
-    env.seed(0)
+    env.seed(int(time.time()))
     game = env.game
 
     episode_count = opt.n
