@@ -105,10 +105,10 @@ class Serengeti(AbstractGame):
 
     def all_affordables(self):
         size = self.ctx['size'] if 'size' in self.ctx else 64
-        xmin = self.ctx['xmin'] if 'xmin' in self.ctx else -4.0
-        xmax = self.ctx['xmax'] if 'xmax' in self.ctx else 4.0
-        ymin = self.ctx['ymin'] if 'ymin' in self.ctx else -4.0
-        ymax = self.ctx['ymax'] if 'ymax' in self.ctx else 4.0
+        xmin = self.ctx['xmin'] if 'xmin' in self.ctx else -3.5
+        xmax = self.ctx['xmax'] if 'xmax' in self.ctx else 3.5
+        ymin = self.ctx['ymin'] if 'ymin' in self.ctx else -3.5
+        ymax = self.ctx['ymax'] if 'ymax' in self.ctx else 3.5
 
         x = 2 * (np.random.random() * (xmax - xmin) + xmin)
         y = 2 * (np.random.random() * (ymax - ymin) + ymin)
