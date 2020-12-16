@@ -7,13 +7,14 @@ from numx.chief import Chief
 
 
 class Serengeti(AbstractGame):
-    def __init__(self, ctx, alpha=0.01, device='cpu'):
+    def __init__(self, ctx, alpha=0.01, beta=0.001, device='cpu'):
         super(Serengeti, self).__init__(ctx, 'serengeti')
         self.device = device
 
         self.steps = 0
 
         self.alpha = alpha
+        self.beta = beta
 
         self.xmin = -2
         self.xmax = +2
@@ -42,7 +43,7 @@ class Serengeti(AbstractGame):
 
     def probability(self, xx, yy):
         noise = self.alpha * np.random.random()
-        return self.prosperity(xx, yy) + noise
+        return self.beta * (self.prosperity(xx, yy) + noise)
 
     def collected_berries(self, xx, yy):
         prob = self.probability(xx, yy)
