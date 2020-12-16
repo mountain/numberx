@@ -61,7 +61,8 @@ class Net(nn.Module):
     def __init__(self, state_shape, action_shape):
         super().__init__()
         h, w = state_shape[0], state_shape[1]
-        self.h = 2 * w
+        h = w * 2
+        self.h = h
         self.w = w
 
         self.dqn_lnd = DQN(1, h // 4, w // 2, 512, device=device)
