@@ -7,9 +7,10 @@ from numx.chief import Chief
 
 
 class Serengeti(AbstractGame):
-    def __init__(self, ctx, alpha=0.5, beta=0.0025, device='cpu'):
+    def __init__(self, ctx, alpha=0.5, beta=0.0025, mode='hidden', device='cpu'):
         super(Serengeti, self).__init__(ctx, 'serengeti')
         self.device = device
+        self.mode = mode
 
         self.steps = 0
 
@@ -30,6 +31,13 @@ class Serengeti(AbstractGame):
         self.canvas_left = np.zeros((size, size))
         self.canvas_right = np.zeros((size, size))
         self.map = np.zeros((2 * size, 2 * size))
+
+        IX, IY = np.meshgrid(
+            np.linspace(self.xmin, self.xmax, num=2 * size),
+            np.linspace(self.ymin, self.ymax, num=2 * size),
+        )
+        self.XS = (IX < self.peakx + 4 / self.size) * (IX > self.peakx - 4 / self.size)
+        self.YS = (IY < self.peaky + 4 / self.size) * (IY > self.peaky - 4 / self.size)
 
         tribex = np.random.random() * (self.xmax - self.xmin) + self.xmin
         tribey = np.random.random() * (self.ymax - self.ymin) + self.ymin
@@ -63,6 +71,9 @@ class Serengeti(AbstractGame):
         self.apply_shaman_effect()
         self.apply_chief_effect()
 
+        if self.mode == 'revealed':
+            self.map[self.YS * self.XS] = 1.0
+
     def apply_tribe_effect(self):
         np.copyto(self.berries_left, self.collected_berries(*self.tribe.left_wing()))
         np.copyto(self.berries_right, self.collected_berries(*self.tribe.right_wing()))
@@ -84,12 +95,25 @@ class Serengeti(AbstractGame):
         self.tribe.draw_map(sourcex, sourcey, targetx, targety)
         np.copyto(self.map, self.tribe.map)
 
+    def apply_tribe_effect(self):
+        np.copyto(self.berries_left, self.collected_berries(*self.tribe.left_wing()))
+        np.copyto(self.berries_right, self.collected_berries(*self.tribe.right_wing()))
+
     def reset(self):
         super(Serengeti, self).reset()
+        self.map = np.zeros((2 * self.size, 2 * self.size))
 
     def all_affordables(self):
         size = self.ctx['size'] if 'size' in self.ctx else 64
-        self.chief = Chief(self.ctx, size, size)
+        xmin = self.ctx['xmin'] if 'xmin' in self.ctx else -4.0
+        xmax = self.ctx['xmax'] if 'xmax' in self.ctx else 4.0
+        ymin = self.ctx['ymin'] if 'ymin' in self.ctx else -4.0
+        ymax = self.ctx['ymax'] if 'ymax' in self.ctx else 4.0
+
+        x = 2 * (np.random.random() * (xmax - xmin) + xmin)
+        y = 2 * (np.random.random() * (ymax - ymin) + ymin)
+        self.chief = Chief(self.ctx, x, y)
+
         self.shaman_left = Shaman(self.ctx, 'lshaman', size, size)
         self.shaman_right = Shaman(self.ctx, 'rshaman', size, size)
 

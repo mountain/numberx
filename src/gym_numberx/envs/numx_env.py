@@ -15,10 +15,10 @@ logger = logging.getLogger(__name__)
 class NumXSerengetiEnv(gym.Env, utils.EzPickle):
     metadata = {'render.modes': ['rgb_array']}
 
-    def __init__(self, device=None):
+    def __init__(self, mode='hidden', device=None):
         gym.Env.__init__(self)
         self.steps = 0
-        self.game = Serengeti({}, device=device)
+        self.game = Serengeti({}, mode=mode, device=device)
         self.game.add_step_handler(self)
 
         self.action_space = self.game.action_space()

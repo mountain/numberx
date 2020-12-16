@@ -19,7 +19,7 @@ if __name__ == '__main__':
 
     logger.set_level(logger.INFO)
 
-    env = gym.make('numberx-serengeti-v0')
+    env = gym.make('numberx-serengeti-v0', mode='revealed')
 
     outdir = 'results'
     env = wrappers.Monitor(env, directory=outdir, force=True)

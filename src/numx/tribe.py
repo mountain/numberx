@@ -32,6 +32,6 @@ class Tribe:
 
     def draw_map(self, sourcex, sourcey, targetx, targety):
         for t in range(50):
-            x = int(self.ratio * (7 + sourcex + t * (targetx - sourcex) / 50))
-            y = int(self.ratio * (7 + sourcey + t * (targety - sourcey) / 50))
+            x = int((7 + sourcex + t * (targetx - sourcex) / 50) / self.ratio)
+            y = int((7 + sourcey + t * (targety - sourcey) / 50) / self.ratio)
             self.map[y, x] = 1.0
