@@ -68,10 +68,13 @@ class Serengeti(AbstractGame):
         sr = np.sum(self.berries_right)
         st = sl + sr
         self.total_score = self.total_score + st
-        self.score_img = np.zeros((self.size // 2, 2 * self.size), dtype=np.uint8)
-        cv2.putText(self.score_img, '%03d' % sl, (2 * self.size // 8 * 1, self.size // 4), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
-        cv2.putText(self.score_img, '%03d' % sr, (2 * self.size // 8 * 3, self.size // 4), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
-        cv2.putText(self.score_img, '%06d' % self.total_score, (2 * self.size // 8 * 5, self.size // 4), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
+
+        if self.mode == 'revealed':
+            self.score_img = np.zeros((self.size // 2, 2 * self.size), dtype=np.uint8)
+            cv2.putText(self.score_img, '%03d' % sl, (2 * self.size // 8 * 1, self.size // 4), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(self.score_img, '%03d' % sr, (2 * self.size // 8 * 3, self.size // 4), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(self.score_img, '%06d' % self.total_score, (2 * self.size // 8 * 5, self.size // 4), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
+
         return self.total_score
 
     def apply_effect(self):
@@ -143,10 +146,17 @@ class Serengeti(AbstractGame):
         )
         score = np.array(self.score_img, dtype=np.float) / 255
 
-        state = np.concatenate(
-            (berries, canvaz, self.map, score),
-            axis=0
-        )
+        if self.mode == 'revealed':
+            state = np.concatenate(
+                (berries, canvaz, self.map, score),
+                axis=0
+            )
+        else:
+            state = np.concatenate(
+                (berries, canvaz, self.map),
+                axis=0
+            )
+
         return state
 
     def reward(self):
