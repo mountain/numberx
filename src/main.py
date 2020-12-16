@@ -119,5 +119,5 @@ if __name__ == '__main__':
     perf = result["best_reward"]
     dura = result["duration"]
 
-    filepath = model_path / f'perf_{int(perf):010d}.duration_{int(dura):04d}.chk'
+    filepath = model_path / f'perf_{perf}.duration_{dura}.chk'
     torch.save(policy.state_dict(), filepath)
