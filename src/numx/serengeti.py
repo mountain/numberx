@@ -67,15 +67,14 @@ class Serengeti(AbstractGame):
         sl = np.sum(self.berries_left)
         sr = np.sum(self.berries_right)
         st = sl + sr
-        self.total_score = self.total_score + st
 
         if self.mode == 'revealed':
             self.score_img = np.zeros((self.size // 2, 2 * self.size), dtype=np.uint8)
             cv2.putText(self.score_img, '%03d' % sl, (2 * self.size // 8 * 1, self.size // 4), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
             cv2.putText(self.score_img, '%03d' % sr, (2 * self.size // 8 * 3, self.size // 4), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
-            cv2.putText(self.score_img, '%06d' % self.total_score, (2 * self.size // 8 * 5, self.size // 4), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(self.score_img, '%03d' % st, (2 * self.size // 8 * 5, self.size // 4), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
 
-        return self.total_score / 10000
+        return st / 100
 
     def apply_effect(self):
         self.steps += 1
@@ -167,9 +166,9 @@ class Serengeti(AbstractGame):
         return self.score()
 
     def exit_condition(self):
-        score = self.total_score / 10000
+        score = self.score()
         steps = self.steps
-        return steps > 200 or score > 1
+        return steps > 200 or score > 5
 
     def force_condition(self):
         return False
