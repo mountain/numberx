@@ -34,7 +34,6 @@ class Serengeti(AbstractGame):
         self.map = np.zeros((2 * size, 2 * size))
 
         self.score_img = np.zeros((self.size // 2, 2 * size), dtype=np.uint8)
-        self.total_score = 0.0
 
         IX, IY = np.meshgrid(
             np.linspace(self.xmin, self.xmax, num=2 * size),
@@ -74,7 +73,7 @@ class Serengeti(AbstractGame):
             cv2.putText(self.score_img, '%03d' % sr, (2 * self.size // 8 * 3, self.size // 4), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
             cv2.putText(self.score_img, '%03d' % st, (2 * self.size // 8 * 5, self.size // 4), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
 
-        return st / 100
+        return st
 
     def apply_effect(self):
         self.steps += 1
@@ -117,7 +116,6 @@ class Serengeti(AbstractGame):
         self.tribe.clear_map()
         self.map = np.zeros((2 * self.size, 2 * self.size))
         self.score_img = np.zeros((self.size // 2, 2 * self.size), dtype=np.uint8)
-        self.total_score = 0
         self.steps = 0
 
     def all_affordables(self):
