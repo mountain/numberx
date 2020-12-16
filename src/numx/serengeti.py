@@ -60,9 +60,7 @@ class Serengeti(AbstractGame):
         return berries
 
     def score(self):
-        dx = self.tribe.x - self.peakx
-        dy = self.tribe.y - self.peaky
-        return - np.log(1e-8 + dx * dx + dy * dy)
+        return np.sum(self.berries_left) + np.sum(self.berries_right)
 
     def apply_effect(self):
         self.steps += 1
