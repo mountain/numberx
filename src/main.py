@@ -65,10 +65,10 @@ class Net(nn.Module):
         self.h = h
         self.w = w
 
-        self.dqn_lnd = DQN(3, h // 4, w // 2, 512, device=device)
-        self.dqn_brd = DQN(3, h // 4, w // 2, 512, device=device)
-        self.dqn_map = DQN(3, h // 2, w, 2048, device=device)
-        self.recurr = Recurrent(3, 4096, action_shape, device=device)
+        self.dqn_lnd = DQN(1, h // 4, w // 2, 512, device=device)
+        self.dqn_brd = DQN(1, h // 4, w // 2, 512, device=device)
+        self.dqn_map = DQN(1, h // 2, w, 2048, device=device)
+        self.recurr = Recurrent(1, 4096, action_shape, device=device)
 
     def forward(self, obs, state=None, info={}):
         if not isinstance(obs, torch.Tensor):
@@ -76,9 +76,9 @@ class Net(nn.Module):
             if cuda:
                 obs = obs.cuda().to(device)
 
-        lndl, lndr = obs[:, :, 0:self.h // 4, 0:self.w // 2], obs[:, :, 0:self.h // 4, self.w // 2:self.w]
-        brdl, brdr = obs[:, :, self.h // 4:self.h // 2, 0:self.w // 2], obs[:, :, self.h // 4:self.h // 2, self.w // 2:self.w]
-        map = obs[:, :, self.h // 2:self.h, :]
+        lndl, lndr = obs[:, 0:1, 0:self.h // 4, 0:self.w // 2], obs[:, 0:1, 0:self.h // 4, self.w // 2:self.w]
+        brdl, brdr = obs[:, 0:1, self.h // 4:self.h // 2, 0:self.w // 2], obs[:, 0:1, self.h // 4:self.h // 2, self.w // 2:self.w]
+        map = obs[:, 0:1, self.h // 2:self.h, :]
         enc_lnd_l, _ = self.dqn_lnd(lndl, state=None)
         enc_lnd_r, _ = self.dqn_lnd(lndr, state=None)
         enc_brd_l, _ = self.dqn_brd(brdl, state=None)
