@@ -12,7 +12,7 @@ class Chief(Affordable):
         self.ctx = ctx
 
         self.direction = 0
-        self.speed = 0.003
+        self.speed = 0.05
         self.rotation = 0.0
         self.x = x
         self.y = y
@@ -67,8 +67,8 @@ class Chief(Affordable):
 
     def gu(self):
         self.speed = self.speed + 0.05
-        if self.speed > 0.3:
-            self.speed = 0.3
+        if self.speed > 1.0:
+            self.speed = 1.0
 
     def gd(self):
         self.speed = self.speed / 1.618

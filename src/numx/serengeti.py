@@ -118,6 +118,7 @@ class Serengeti(AbstractGame):
         self.map = np.zeros((2 * self.size, 2 * self.size))
         self.score_img = np.zeros((self.size // 2, 2 * self.size), dtype=np.uint8)
         self.total_score = 0
+        self.steps = 0
 
     def all_affordables(self):
         size = self.ctx['size'] if 'size' in self.ctx else 64
@@ -163,7 +164,7 @@ class Serengeti(AbstractGame):
         return self.score()
 
     def exit_condition(self):
-        score = self.score()
+        score = self.total_score
         steps = self.steps
         return steps > 2000 or score > 5
 
