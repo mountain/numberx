@@ -35,3 +35,6 @@ class Tribe:
             x = int((7 + sourcex + t * (targetx - sourcex) / 50) / self.ratio)
             y = int((7 + sourcey + t * (targety - sourcey) / 50) / self.ratio)
             self.map[y, x] = 1.0
+
+    def clear_map(self):
+        self.map = np.zeros((2 * self.width, 2 * self.height))

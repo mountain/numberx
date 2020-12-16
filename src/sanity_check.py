@@ -11,7 +11,7 @@ from gym import wrappers, logger
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-n", type=int, default=2000, help="number of epochs of training")
+parser.add_argument("-n", type=int, default=1000, help="number of epochs of training")
 opt = parser.parse_args()
 
 

@@ -115,6 +115,7 @@ class Serengeti(AbstractGame):
 
     def reset(self):
         super(Serengeti, self).reset()
+        self.tribe.clear_map()
         self.map = np.zeros((2 * self.size, 2 * self.size))
         self.score_img = np.zeros((self.size // 2, 2 * self.size), dtype=np.uint8)
         self.total_score = 0
@@ -137,6 +138,8 @@ class Serengeti(AbstractGame):
         return self.chief, self.shaman_left, self.shaman_right
 
     def state_space(self):
+        self.apply_effect()
+
         berries = np.concatenate(
             (self.berries_left,  self.berries_right),
             axis=1
@@ -166,7 +169,7 @@ class Serengeti(AbstractGame):
     def exit_condition(self):
         score = self.total_score
         steps = self.steps
-        return steps > 2000 or score > 5
+        return steps > 200 or score > 1000
 
     def force_condition(self):
         return False
