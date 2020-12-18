@@ -9,32 +9,49 @@ class Tribe:
         self.x = x
         self.y = y
 
-        self.map = np.zeros((2 * width, 2 * height))
-        self.ratio = 7 / width
+        self.map = np.zeros((4 * width + 3, 4 * height + 3))
+        self.ratio = 7 / width / 2
 
-    def left_wing(self):
+    def head_left(self):
         xx, yy = np.meshgrid(np.linspace(-1, 1, self.height), np.linspace(-1, 1, self.width))
-        xx, yy = xx - 1, yy + 0.5
+        xx, yy = xx - 1, yy + 1
         rr = np.sqrt(xx * xx + yy * yy)
         phi = np.arctan2(yy, xx) + self.direction * np.pi / 180
         xx, yy = rr * np.cos(phi) / 10, rr * np.sin(phi) / 10
         xx, yy = xx + self.x, yy + self.y
         return xx, yy
 
-    def right_wing(self):
+    def head_right(self):
         xx, yy = np.meshgrid(np.linspace(-1, 1, self.height), np.linspace(-1, 1, self.width))
-        xx, yy = xx + 1, yy + 0.5
+        xx, yy = xx + 1, yy + 1
         rr = np.sqrt(xx * xx + yy * yy)
         phi = np.arctan2(yy, xx) + self.direction * np.pi / 180
         xx, yy = rr * np.cos(phi) / 10, rr * np.sin(phi) / 10
+        xx, yy = xx + self.x, yy + self.y
+        return xx, yy
+
+    def rear_left(self):
+        xx, yy = np.meshgrid(np.linspace(-1, 1, self.height), np.linspace(-1, 1, self.width))
+        xx, yy = xx - 1, yy - 1
+        rr = np.sqrt(xx * xx + yy * yy)
+        phi = np.arctan2(yy, xx) + self.direction * np.pi / 180
+        xx, yy = rr * np.cos(phi) / 10, rr * np.sin(phi) / 10
+        xx, yy = xx + self.x, yy + self.y
+        return xx, yy
+
+    def rear_right(self):
+        xx, yy = np.meshgrid(np.linspace(-1, 1, self.height), np.linspace(-1, 1, self.width))
+        xx, yy = xx + 1, yy - 1
+        rr = np.sqrt(xx * xx + yy * yy)
+        phi = np.arctan2(yy, xx) + self.direction * np.pi / 180
+        xx, yy = rr * np.cos(phi) / 20, rr * np.sin(phi) / 20
         xx, yy = xx + self.x, yy + self.y
         return xx, yy
 
     def draw_map(self, sourcex, sourcey, targetx, targety):
-        for t in range(50):
-            x = int((7 + sourcex + t * (targetx - sourcex) / 50) / self.ratio)
-            y = int((7 + sourcey + t * (targety - sourcey) / 50) / self.ratio)
-            self.map[y, x] = 1.0
+        IX = np.array((7 + np.linspace(sourcex, targetx, num=50)) / self.ratio, dtype=np.int)
+        IY = np.array((7 + np.linspace(sourcey, targety, num=50)) / self.ratio, dtype=np.int)
+        self.map[IY, IX] = 1.0
 
     def clear_map(self):
-        self.map = np.zeros((2 * self.width, 2 * self.height))
+        self.map = np.zeros((4 * self.width + 3, 4 * self.height + 3))

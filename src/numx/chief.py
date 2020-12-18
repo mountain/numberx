@@ -1,9 +1,12 @@
 import numpy as np
+import itertools
 
 from affordable.affordable import Affordable, get_action
 
 
 phi = (np.sqrt(5) - 1) / 2.0
+
+ACTIONS = ('lf', 'rt', 'gu', 'gd', 'sc')
 
 
 class Chief(Affordable):
@@ -11,33 +14,33 @@ class Chief(Affordable):
         super().__init__(ctx, 'chief')
         self.ctx = ctx
 
-        self.direction = 0
-        self.speed = 0.05
-        self.rotation = 0.0
+        self.direction = 360 * np.random.rand()
+        self.speed = 0.0
         self.x = x
         self.y = y
+        self.dt = self.ctx['dt'] if 'dt' in self.ctx else 0.0001
 
     def available_actions(self):
-        return 'kp', 'lf', 'rt', 'gu', 'gd'
-        # return 'lf', 'rt', 'gu', 'gd'
+        return list(itertools.product(ACTIONS))
 
     def reset(self):
         super(Chief, self).reset()
 
     def act(self, action):
         action = get_action(self.ctx, action=action).chief
-        if action == 'kp':
-            self.kp()
-        elif action == 'lf':
-            self.lf()
-        elif action == 'rt':
-            self.rt()
-        elif action == 'gu':
-            self.gu()
-        elif action == 'gd':
-            self.gd()
+        for a in action:
+            if a == 'lf':
+                self.lf()
+            elif a == 'rt':
+                self.rt()
+            elif a == 'gu':
+                self.gu()
+            elif a == 'gd':
+                self.gd()
+            elif a == 'sc':
+                self.sc()
 
-        self.fw()
+            self.fw()
 
     def fw(self):
         dx = self.speed * np.cos(self.direction * np.pi / 180)
@@ -49,26 +52,21 @@ class Chief(Affordable):
             self.x = self.x / r * 7
             self.y = self.y / r * 7
 
-    def kp(self):
-         self.direction = (self.direction + self.rotation) % 360
-         self.rotation = self.rotation * phi
-
     def lf(self):
-        self.direction = (self.direction + self.rotation) % 360
-        self.rotation = self.rotation * phi
-        self.rotation = self.rotation - 360
-        # self.direction = (self.direction - 360 * phi + 360) % 360
+        self.direction = (self.direction - 180 / np.pi * self.dt) % 360
 
     def rt(self):
-        self.direction = (self.direction + self.rotation) % 360
-        self.rotation = self.rotation * phi
-        self.rotation = self.rotation + 360
-        # self.direction = (self.direction + 360 * phi) % 360
+        self.direction = (self.direction + 180 / np.pi * self.dt) % 360
 
     def gu(self):
-        self.speed = self.speed + 0.05
-        if self.speed > 1.0:
-            self.speed = 1.0
+        self.speed = self.speed + 1.0 * self.dt
+        if self.speed > 3:
+            self.speed = 3
 
     def gd(self):
-        self.speed = self.speed / 1.618
+        self.speed = self.speed - 1.0 * self.dt
+        if self.speed < -3:
+            self.speed = -3
+
+    def sc(self):
+        self.speed = self.speed * phi

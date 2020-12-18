@@ -1,6 +1,10 @@
 import numpy as np
+import itertools
 
 from affordable.affordable import Affordable, get_action
+
+
+ACTIONS = ('np', 'up', 'dn', 'lf', 'rt', 'rs')
 
 
 class Shaman(Affordable):
@@ -9,76 +13,66 @@ class Shaman(Affordable):
         self.width = width
         self.height = height
         self.canvas = np.zeros([height, width])
-
-        self.pen_status = 'up'
-        self.x = 0
-        self.y = 0
+        self.x = width // 2
+        self.y = height // 2
 
     def available_actions(self):
-        return ('pu', 'pd', 'up', 'dn', 'lf', 'rt', 'rs')
+        return list(itertools.product(ACTIONS))
 
     def reset(self):
         super(Shaman, self).reset()
         self.canvas = np.zeros([self.height, self.width])
 
     def act(self, action):
-        if self.name() == 'lshaman':
-            action = get_action(self.ctx, action=action).lshaman
-        else:
-            action = get_action(self.ctx, action=action).rshaman
+        nm = self.name()
+        if nm == 'shaman_hl':
+            action = get_action(self.ctx, action=action).shaman_hl
+        elif nm == 'shaman_hr':
+            action = get_action(self.ctx, action=action).shaman_hr
+        elif nm == 'shaman_rl':
+            action = get_action(self.ctx, action=action).shaman_rl
+        elif nm == 'shaman_rr':
+            action = get_action(self.ctx, action=action).shaman_rr
 
-        if action == 'pu':
-            self.pu()
-        elif action == 'pd':
-            self.pd()
-        elif action == 'up':
-            self.up()
-        elif action == 'dn':
-            self.dn()
-        elif action == 'lf':
-            self.lf()
-        elif action == 'rt':
-            self.rt()
-        elif action == 'rs':
-            self.rs()
-
-    def pu(self):
-        self.pen_status = 'up'
-
-    def pd(self):
-        self.pen_status = 'dn'
+        for a in action:
+            if a == 'up':
+                self.up()
+            elif a == 'dn':
+                self.dn()
+            elif a == 'lf':
+                self.lf()
+            elif a == 'rt':
+                self.rt()
+            elif a == 'rs':
+                self.rs()
 
     def up(self):
         self.y -= 1
         if self.y < 0:
             self.y = 0
 
-        if self.pen_status == 'dn':
-            self.canvas[self.y, self.x] = 1.0
+        self.canvas[self.y, self.x] = 1.0
 
     def dn(self):
         self.y += 1
         if self.y > self.height - 1:
             self.y = self.height - 1
 
-        if self.pen_status == 'dn':
-            self.canvas[self.y, self.x] = 1.0
+        self.canvas[self.y, self.x] = 1.0
 
     def lf(self):
         self.x -= 1
         if self.x < 0:
             self.x = 0
 
-        if self.pen_status == 'dn':
-            self.canvas[self.y, self.x] = 1.0
+        self.canvas[self.y, self.x] = 1.0
 
     def rt(self):
         self.x += 1
         if self.x > self.width - 1:
             self.x = self.width - 1
 
-        if self.pen_status == 'dn':
-            self.canvas[self.y, self.x] = 1.0
+        self.canvas[self.y, self.x] = 1.0
 
     def rs(self):
         self.canvas = np.zeros([self.height, self.width])

@@ -103,6 +103,11 @@ train_collector = ts.data.Collector(policy, train_envs, ts.data.ReplayBuffer(siz
 test_collector = ts.data.Collector(policy, test_envs)
 
 
+def save(mean_rewards):
+    torch.save(policy.state_dict(), model_path / f'perf_{mean_rewards}.chk')
+    return mean_rewards
+
+
 if __name__ == '__main__':
     logger.set_level(logger.INFO)
 
@@ -114,11 +119,3 @@ if __name__ == '__main__':
         test_fn=lambda epoch, env_step: policy.set_eps(0.05),
         stop_fn=lambda mean_rewards: mean_rewards >= env.spec.reward_threshold,
         writer=None)
-
-    print(f'training | duration: {result["duration"]}, best: {result["best_reward"]}')
-
-    perf = result["best_reward"]
-    dura = result["duration"]
-
-    filepath = model_path / f'perf_{perf}.duration_{dura}.chk'
-    torch.save(policy.state_dict(), filepath)
