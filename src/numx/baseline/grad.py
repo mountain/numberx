@@ -92,8 +92,8 @@ def swirl(obs, reward, done):
         if wait_time > 20:
             wait_time = 20
         rand_step = rand_step * 2
-        if rand_step > 1000:
-            rand_step = 1000
+        if rand_step > 10000:
+            rand_step = 10000
 
     rndx, rndy = int(random.random() * rand_step - rand_step / 2), int(random.random() * rand_step - rand_step / 2)
 
