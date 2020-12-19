@@ -22,6 +22,8 @@ class Shaman(Affordable):
     def reset(self):
         super(Shaman, self).reset()
         self.canvas = np.zeros([self.height, self.width])
+        self.x = self.width // 2
+        self.y = self.height // 2
 
     def act(self, action):
         nm = self.name()
@@ -76,3 +78,6 @@ class Shaman(Affordable):
 
     def rs(self):
         self.canvas = np.zeros([self.height, self.width])
+        self.x = self.width // 2
+        self.y = self.height // 2
+

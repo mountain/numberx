@@ -9,7 +9,7 @@ from numx.chief import Chief
 
 
 class Serengeti(AbstractGame):
-    def __init__(self, ctx, alpha=0.3, mode='hidden', device='cpu'):
+    def __init__(self, ctx, alpha=0.1, mode='hidden', device='cpu'):
         super(Serengeti, self).__init__(ctx, 'serengeti')
         self.device = device
         self.mode = mode
@@ -53,12 +53,12 @@ class Serengeti(AbstractGame):
         ]))
 
         self.alpha = alpha
-        self.beta = 1.0 / size / size * np.exp(1 * 1) * 4 / np.pi / (1.0001 - alpha) * (0.0001 + alpha) / fn(alpha)
+        self.beta = 1.0 / size / size * np.exp(3 * 3) * 4 / np.pi / (1.0001 - alpha) * (0.0001 + alpha) / fn(alpha) / 4
         self.steps = 0
         self.accum = 0
 
         self.gen_peak()
-        self.calculate_index(size)
+        self.gen_index(size)
 
         self.berries_hl = np.zeros((size, size))
         self.berries_hr = np.zeros((size, size))
@@ -93,14 +93,20 @@ class Serengeti(AbstractGame):
         if np.sqrt(self.peakx * self.peakx + self.peaky * self.peaky) > 3.5:
             self.gen_peak()
 
-    def calculate_index(self, size):
+    def gen_index(self, size):
         IX, IY = np.meshgrid(
             np.linspace(self.xmin, self.xmax, num=4 * size + 3),
-            np.linspace(self.ymin, self.ymax, num=4 * size + 3),
+            np.linspace(self.ymax, self.ymin, num=4 * size + 3),
         )
         self.IX, self.IY = IX, IY
-        self.XS = (IX < self.peakx + 4 / self.size) * (IX > self.peakx - 4 / self.size)
-        self.YS = (IY < self.peaky + 4 / self.size) * (IY > self.peaky - 4 / self.size)
+        XS = (IX < (self.peakx + 4 / self.size)) * (IX > (self.peakx - 4 / self.size))
+        YS = (IY < (self.peaky + 4 / self.size)) * (IY > (self.peaky - 4 / self.size))
+        self.BLK = XS * YS
+
+        R = np.sqrt(IX * IX + IY * IY)
+        self.CCL = (R > 3.45) * (R < 3.5)
+        self.XAX = (IX > -0.05) * (IX < 0.05)
+        self.YAX = (IY > -0.05) * (IY < 0.05)
 
     def prosperity(self, xx, yy):
         dx = xx - self.peakx
@@ -145,7 +151,10 @@ class Serengeti(AbstractGame):
         self.score()
 
         if self.mode == 'revealed':
-            self.navi_map[self.YS * self.XS] = 1.0
+            self.navi_map[self.BLK] = 1.0
+            self.navi_map[self.CCL] = 1.0
+            self.navi_map[self.XAX] = 1.0
+            self.navi_map[self.YAX] = 1.0
 
     def apply_tribe_effect(self):
         np.copyto(self.berries_hl, self.collected_berries(*self.tribe.head_left()))
@@ -172,6 +181,14 @@ class Serengeti(AbstractGame):
         self.tribe.draw_map(sourcex, sourcey, targetx, targety)
         np.copyto(self.navi_map, self.tribe.map)
 
+        print('-----------------------------')
+        print(targetx, targety)
+        print(self.peakx, self.peaky)
+        print((self.peakx - targetx) ** 2)
+        print((self.peaky - targety) ** 2)
+        print((self.peakx - targetx) ** 2 + (self.peaky - targety) ** 2)
+        print(np.sqrt(((self.peakx - targetx) ** 2 + (self.peaky - targetx) ** 2)), self.prosperity(targetx, targety))
+
     def reset(self):
         super(Serengeti, self).reset()
         self.tribe.clear_map()
@@ -179,6 +196,7 @@ class Serengeti(AbstractGame):
         self.score_img = np.zeros((self.size // 2, 6 * self.size + 8), dtype=np.uint8)
         self.steps = 0
         self.gen_peak()
+        self.gen_index(self.size)
 
     def all_affordables(self):
         self.set_boundaries()
@@ -252,7 +270,7 @@ class Serengeti(AbstractGame):
 
     def exit_condition(self):
         steps = self.steps
-        return steps > 2000
+        return steps > 10000
 
     def force_condition(self):
         return False

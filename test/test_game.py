@@ -23,7 +23,7 @@ class TestGame(unittest.TestCase):
             p = self.game.probability(xs, ys)
 
             r = np.sqrt(xs * xs + ys * ys)
-            s = (r > (1 - 0.05)) * (r < (1 + 0.05))
+            s = (r > (3 - 0.05)) * (r < (3 + 0.05))
             b = np.mean(s * p) * self.game.size * self.game.size
             self.assertGreaterEqual(b, -1.0)
             self.assertLessEqual(b, 4.0)

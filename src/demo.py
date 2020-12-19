@@ -9,9 +9,9 @@ import time
 from gym import wrappers, logger
 
 from numx.baseline.rnd import rnd
-from numx.baseline.grad import levy
+from numx.baseline.grad import swirl
 
-policy = levy
+policy = swirl
 
 
 if __name__ == '__main__':

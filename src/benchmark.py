@@ -10,7 +10,7 @@ import numpy as np
 from gym import wrappers, logger
 
 from numx.baseline.rnd import rnd
-from numx.baseline.grad import levy
+from numx.baseline.grad import swirl
 
 policy = rnd
 

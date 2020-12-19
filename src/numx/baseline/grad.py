@@ -7,12 +7,49 @@ import random
 
 Action = collections.namedtuple('Action', ['chief', 'shaman_hl', 'shaman_hr', 'shaman_rl', 'shaman_rr'])
 
+
+class Swirl:
+    def __init__(self, ):
+        self.reset()
+
+    def reset(self):
+        self.x = 0
+        self.y = 0
+        self.bounday = 0
+        self.direction = 'up'
+        self.action = ['rs']
+
+    def step(self):
+        self.action.append(self.direction)
+
+        if self.direction == 'up':
+            self.x -= 1
+        elif self.direction == 'dn':
+            self.x += 1
+        elif self.direction == 'lf':
+            self.y -= 1
+        elif self.direction == 'rt':
+            self.y += 1
+
+        if (self.x < - self.bounday or self.x > self.bounday) or (self.y < - self.bounday or self.y > self.bounday):
+            self.bounday += 1
+            if self.direction == 'up':
+                self.direction = 'rt'
+            elif self.direction == 'dn':
+                self.direction = 'lf'
+            elif self.direction == 'lf':
+                self.direction = 'up'
+            elif self.direction == 'rt':
+                self.direction = 'dn'
+
 times = 0
-last_reward, diff, last_diff = 0, 0, 0
+wait_time = 10
+rand_step = 1
+hlaction, hraction, rlaction, rraction = Swirl(), Swirl(), Swirl(), Swirl()
 
 
-def levy(obs, reward, done):
-    global last_reward, diff, last_diff, times
+def swirl(obs, reward, done):
+    global times, wait_time, rand_step
 
     obs = obs[0, :, :] / 255
     h, w = obs.shape
@@ -26,58 +63,49 @@ def levy(obs, reward, done):
     brrhr = int(np.sum(lndhr))
     brrrl = int(np.sum(lndrl))
     brrrr = int(np.sum(lndrr))
-    hlaction, hraction, rlaction, rraction = [], [], [], []
     for _ in range(brrhl):
-        hlaction.append(random.sample(['lf', 'rt', 'up', 'dn'], 1)[0])
+        hlaction.step()
     for _ in range(brrhr):
-        hraction.append(random.sample(['lf', 'rt', 'up', 'dn'], 1)[0])
+        hraction.step()
     for _ in range(brrrl):
-        rlaction.append(random.sample(['lf', 'rt', 'up', 'dn'], 1)[0])
+        rlaction.step()
     for _ in range(brrrr):
-        rraction.append(random.sample(['lf', 'rt', 'up', 'dn'], 1)[0])
+        rraction.step()
 
     cnthl = int(np.sum(brdhl))
     cnthr = int(np.sum(brdhr))
     cntrl = int(np.sum(brdrl))
     cntrr = int(np.sum(brdrr))
-    total = cnthl + cnthr + cntrl + cntrr
-    dx = (cnthr + cntrr) - (cnthl + cntrl)
-    dy = (cnthl + cnthr) - (cntrl + cntrr)
-    ag = np.arctan2(dy, dx) * 180 / np.pi
+
+    dxp = cntrr - cnthl
+    dyp = cnthr - cntrl
+    dx, dy = dyp + dxp, dyp - dxp
     dr = np.sqrt(dx * dx + dy * dy)
 
-    caction = ['sc', 'sc', 'sc', 'sc', 'sc', 'sc']
-    if dy > 0:
-        if ag > 90:
-            for _ in range(int((ag - 90))):
-                caction.append('lf')
-        if ag < 90:
-            for _ in range(int((90 - ag))):
-                caction.append('rt')
-        for _ in range(int(dr)):
-            caction.append('gu')
-    if dy < 0:
-        if ag > -90:
-            for _ in range(int((ag + 90))):
-                caction.append('rt')
-        if ag < -90:
-            for _ in range(int((- ag - 90))):
-                caction.append('lf')
-        for _ in range(int(dr)):
-            caction.append('gd')
+    if dr > 15.0:
+        rand_step = 1.0
+        wait_time -= 1
+        if wait_time < 3:
+            wait_time = 3
+    elif dr != 0:
+        wait_time += 1
+        if wait_time > 20:
+            wait_time = 20
+        rand_step = rand_step * 2
+        if rand_step > 1000:
+            rand_step = 1000
 
-    if last_diff < diff and last_diff > 0 and diff > 0:
-        caction.append('sc')
+    rndx, rndy = int(random.random() * rand_step - rand_step / 2), int(random.random() * rand_step - rand_step / 2)
+
+    caction = (dx + rndx) / 10, (dy + rndy) / 10
+    action = Action._make([caction, hlaction.action, hraction.action, rlaction.action, rraction.action])
 
     times = times + 1
-    if times % 10 == 0:
-        hlaction.append('rs')
-        hraction.append('rs')
-        rlaction.append('rs')
-        rraction.append('rs')
+    if times % wait_time == 0:
+        hlaction.reset()
+        hraction.reset()
+        rlaction.reset()
+        rraction.reset()
 
-    last_diff = diff
-    diff = reward - last_reward
-    last_reward = reward
+    return action
 
-    return Action._make([caction, hlaction, hraction, rlaction, rraction])
