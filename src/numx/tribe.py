@@ -51,6 +51,8 @@ class Tribe:
     def draw_map(self, sourcex, sourcey, targetx, targety):
         IX = np.array((3.5 + np.linspace(sourcex, targetx, num=50)) / self.ratio, dtype=np.int)
         IY = np.array((3.5 - np.linspace(sourcey, targety, num=50)) / self.ratio, dtype=np.int)
+        IX = IX * (IX > 0) * (IX < self.width * 4 + 3)
+        IY = IY * (IY > 0) * (IY < self.width * 4 + 3)
         self.map[IY, IX] = 1.0
 
     def clear_map(self):
