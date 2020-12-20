@@ -10,7 +10,7 @@ class Tribe:
         self.y = y
 
         self.map = np.zeros((4 * width + 3, 4 * height + 3))
-        self.ratio = 7 / width / 2
+        self.ratio = 7 / (4 * width + 3)
 
     def head_left(self):
         xx, yy = np.meshgrid(np.linspace(-1, 1, self.height), np.linspace(-1, 1, self.width))
@@ -50,7 +50,7 @@ class Tribe:
 
     def draw_map(self, sourcex, sourcey, targetx, targety):
         IX = np.array((7 + np.linspace(sourcex, targetx, num=50)) / self.ratio, dtype=np.int)
-        IY = np.array((7 + np.linspace(sourcey, targety, num=50)) / self.ratio, dtype=np.int)
+        IY = np.array((7 + np.linspace(targety, sourcey, num=50)) / self.ratio, dtype=np.int)
         self.map[IY, IX] = 1.0
 
     def clear_map(self):
