@@ -42,18 +42,3 @@ if __name__ == '__main__':
 
     results = np.array(results)
     print(results.mean(), results.std())
-
-    outdir = 'results'
-    env = gym.make('numberx-serengeti-v0', mode='revealed')
-    env = wrappers.Monitor(env, directory=outdir, force=True)
-    env.seed(int(time.time()))
-    game = env.game
-    game.policy = policy
-    ob = env.reset()
-    reward = 0
-    done = False
-    while True:
-        action = game.act(ob, reward, done)
-        ob, reward, done, _ = env.step(action)
-        if done:
-            break

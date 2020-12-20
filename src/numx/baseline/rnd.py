@@ -13,7 +13,7 @@ Action = collections.namedtuple('Action', ['chief', 'shaman_hl', 'shaman_hr', 's
 
 def rnd(obs, reward, done):
     return Action._make([
-        random.sample(chief_actions, 1)[0],
+        (10 * (random.random() - 0.5), 10 * (random.random() - 0.5)),
         random.sample(shaman_actions, 1)[0],
         random.sample(shaman_actions, 1)[0],
         random.sample(shaman_actions, 1)[0],
