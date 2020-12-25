@@ -4,6 +4,7 @@ import numpy as np
 
 from numx.serengeti import Serengeti
 
+
 class TestGame(unittest.TestCase):
 
     def setUp(self):
